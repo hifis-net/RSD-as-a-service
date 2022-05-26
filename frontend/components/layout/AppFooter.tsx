@@ -57,6 +57,12 @@ export default function AppFooter () {
               rel="noreferrer">
               Technical Documention
             </a>
+            <a href="https://www.gfz-potsdam.de/en/data-protection/"
+              target="_blank"
+              className="footer-link"
+              rel="noreferrer">
+              Data protection declaration
+            </a>
           </div>
         </div>
       </div>
