@@ -74,6 +74,9 @@ export default function AppFooter () {
               rel="noreferrer">
               Data protection declaration
             </a>
+            <Link href="/imprint" passHref>
+              <a className="footer-link">Imprint</a>
+            </Link>
           </div>
         </div>
       </div>
