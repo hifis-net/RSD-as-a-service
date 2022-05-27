@@ -11,6 +11,7 @@
  */
 const defaultTheme = require('./themeDefault')
 const darkTheme = require('./themeDark')
+const helmholtzTheme = require('./themeHelmholtz')
 // example eScience theme loading
 // const escienceTheme = require('./themeEscience')
 
@@ -23,21 +24,32 @@ function getThemeConfig(theme) {
     //     colors: escienceTheme.colors,
     //     muiTypography: escienceTheme.muiTypography
     //   }
+    case 'helmholtz':
+      return {
+        colors: helmholtzTheme.colors,
+        fonts: helmholtzTheme.fonts,
+        muiTypography: helmholtzTheme.muiTypography
+      }
     case 'dark':
       return {
         colors: darkTheme.colors,
+        fonts: darkTheme.fonts,
         muiTypography: darkTheme.muiTypography
       }
     default:
       return {
-        colors: defaultTheme.colors,
-        muiTypography: defaultTheme.muiTypography
+        // TODO: change back
+        // colors: defaultTheme.colors,
+        // fonts: defaultTheme.fonts,
+        // muiTypography: defaultTheme.muiTypography
+        colors: helmholtzTheme.colors,
+        fonts: helmholtzTheme.fonts,
+        muiTypography: helmholtzTheme.muiTypography
       }
   }
 }
 
 module.exports={
-  colors: defaultTheme.colors,
-  muiTypography: defaultTheme.muiTypography,
+  ...getThemeConfig(),
   getThemeConfig
 }

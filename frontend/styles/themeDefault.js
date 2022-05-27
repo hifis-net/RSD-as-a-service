@@ -50,12 +50,23 @@ const colors = {
 //   xl: 1920
 // }
 
+const fonts={
+  // Note! If you're using custom (local or remote) font faces, those fonts must
+  // be loaded within styles/global.css
+  default: [
+    'Roboto',
+    'Helvetica',
+    'arial',
+    'sans-serif'
+  ]
+}
+
 const muiTypography={
   // Note! if you change the fonts here ensure you update
   // pages/_document.tsx file to import proper fontFamily
   // Currently we import the fonts from Google Fonts
   // legacy RSD uses these fonts
-  fontFamily: 'Roboto,Helvetica,arial,sans-serif',
+  fontFamily: fonts.default.join(','),
   // set default fontsize to 1rem for MUI-5
   // fontSize:14,
   fontWeightLight: 100,
@@ -66,5 +77,6 @@ const muiTypography={
 
 module.exports={
   colors,
+  fonts,
   muiTypography
 }
