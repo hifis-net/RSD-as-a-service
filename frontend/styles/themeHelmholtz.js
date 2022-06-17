@@ -4,21 +4,21 @@
  */
 
 const colors = {
-  primary:'#05A2E3',
-  secondary:'#000',
-  textPrimary:'rgba(34,36,37,1)',
-  textSecondary:'rgba(34,36,37,0.87)',
+  primary:'#14c8ff', /* Primary Light Blue */
+  secondary:'#002864', /* Primary Blue */
+  textPrimary:'#002864', /* Primary Blue */
+  textSecondary:'#14c8ff', /* Primary Light Blue */
   textDisabled:'rgba(34,36,37,0.45)',
   divider:'#ddd',
-  contrastText:'#fff',
+  contrastText:'#05e5ba', /* Secondary Mint */
   error:'#e53935',
-  warning:'#ed6c02',
-  info:'#0288d1',
-  success:'#2e7d32',
+  warning:'#fa7833', /* Tertiary Light Orange */
+  info:'#cdeefb', /* Secondary Highlight Blue */
+  success:'#8cd600', /* Tertiary Light Green */
   black:'#000',
   white: '#fff',
   background: '#fff',
-  paper: '#fff',
+  paper: '#fff', /* Secondary Web Pale Blue */
   grey: {
     50: '#fafafa',
     100: '#f5f5f5',
