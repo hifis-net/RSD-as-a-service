@@ -9,7 +9,7 @@ const colors = {
   textPrimary:'#002864', /* Primary Blue */
   textSecondary:'#14c8ff', /* Primary Light Blue */
   textDisabled:'rgba(34,36,37,0.45)',
-  divider:'#ddd',
+  divider:'#00ff00',
   contrastText:'#05e5ba', /* Secondary Mint */
   error:'#e53935',
   warning:'#fa7833', /* Tertiary Light Orange */
