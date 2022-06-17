@@ -9,6 +9,9 @@ import {menuItems} from '../../config/menuItems'
 import AddMenu from './AddMenu'
 import LoginButton from '~/components/login/LoginButton'
 
+import LogoApp from '~/assets/LogoApp.svg'
+import LogoAppSmall from '~/assets/LogoAppSmall.svg'
+
 import JavascriptSupportWarning from './JavascriptSupportWarning'
 {/*// import ThemeSwitcher from '~/components/layout/ThemeSwitcher'*/}
 
@@ -43,7 +46,11 @@ export default function AppHeader({editButton}:{editButton?:JSX.Element}){
     <header className="px-4 lg:container lg:mx-auto">
       <div className="flex flex-col pt-4 pb-6 md:flex-row md:items-center">
         <Link href="/" passHref>
-          <a><LogoRSD className="cursor-pointer scale-90 sm:scale-100"/></a>
+          {/*<a><LogoRSD className="cursor-pointer scale-90 sm:scale-100"/></a>*/}
+          <a>
+            <LogoApp className="hidden xl:block"/>
+            <LogoAppSmall className="block xl:hidden"/>
+          </a>
         </Link>
         <section className="flex flex-1 text-lg">
           <div className="flex flex-1 md:justify-center md:items-center">
