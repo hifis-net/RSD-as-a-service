@@ -2,6 +2,8 @@
 // SPDX-FileCopyrightText: 2021 - 2022 dv4all
 // SPDX-FileCopyrightText: 2022 Jesús García Gonzalez (Netherlands eScience Center) <j.g.gonzalez@esciencecenter.nl>
 // SPDX-FileCopyrightText: 2022 Netherlands eScience Center
+// SPDX-FileCopyrightText: 2022 Marc Hanisch (GFZ) <marc.hanisch@gfz-potsdam.de>
+// SPDX-FileCopyrightText: 2022 Helmholtz Centre Potsdam - GFZ German Research Centre for Geosciences
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -12,7 +14,7 @@
  */
 const defaultTheme = require('tailwindcss/defaultTheme')
 // custom theme variables to be used in both themes
-const {colors,muiTypography} = require('./styles/themeConfig')
+const {colors,muiTypography,fonts} = require('./styles/themeConfig')
 
 module.exports = {
   // disable preflight = normalize by tailwind
@@ -27,25 +29,7 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      // sans is default font used
-      // we set Roboto as first font-type
-      // and then the defaults from tailwind
-      sans: [
-        'Roboto',
-        'ui-sans-serif',
-        'system-ui',
-        '-apple-system',
-        'BlinkMacSystemFont',
-        'Segoe UI',
-        'Helvetica Neue',
-        'Arial',
-        'Noto Sans',
-        'sans-serif',
-        'Apple Color Emoji',
-        'Segoe UI Emoji',
-        'Segoe UI Symbol',
-        'Noto Color Emoji'
-      ],
+      sans: fonts.default,
       mono: [
         'ui-monospace',
         'SFMono-Regular',
@@ -68,7 +52,7 @@ module.exports = {
         'spin-slow': 'spin 3s linear infinite',
       },
       fontFamily: {
-        'rsd-titles': ['Work Sans']
+        'rsd-titles': fonts.default
       },
       colors: {
         // in order to have optimal theme integration with material ui components
