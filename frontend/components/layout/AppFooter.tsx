@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import LogoEscience from '~/components/svg/LogoEscience'
 import Mail from '@mui/icons-material/Mail'
+import LogoHifis from '~/assets/logos/LogoHIFISWhite.svg'
 
 export default function AppFooter () {
   return (
@@ -9,26 +10,34 @@ export default function AppFooter () {
 
         <div className="pt-10 sm:pb-10">
           <div className="mb-4 text-lg">
-            The Research Software Directory aims to promote the impact,
-            the exchange and re-use of research software.
+            <a target="_blank" href="https://hifis.net" rel="noreferrer"
+              className="hover:text-primary"
+            >
+              <LogoHifis />
+            </a>
+          </div>
+          <div className="mt-8 mb-4 text-lg">
+            This page is based on the Research Software Directory by
+            <div>
+              <a target="_blank" href="https://esciencecenter.nl" rel="noreferrer"
+                className="hover:text-primary"
+              >
+                <LogoEscience />
+              </a>
+            </div>
             {/* Please use our tools!&nbsp;<Link href="/about" passHref>
               <a className="mr-2 underline">Read more</a>
             </Link> */}
           </div>
-          <a target="_blank" href="https://esciencecenter.nl" rel="noreferrer"
-            className="hover:text-primary"
-          >
-            <LogoEscience />
-          </a>
           {/* <div className="mt-4 text-sm">Copyright © {new Date().getFullYear()}</div> */}
         </div>
 
         <div className="pb-10 sm:pt-10">
           <div className="text-lg">Questions or comments?</div>
-          <a href="mailto:rsd@esciencecenter.nl"
+          <a href="mailto:support@hifis.net"
              className="flex mt-2 text-primary hover:text-white"
           >
-            <Mail className="mr-2"/> rsd@esciencecenter.nl
+            <Mail className="mr-2"/> support@hifis.net
           </a>
 
           <div className="mt-8 text-lg">Research Software Directory</div>
@@ -47,6 +56,18 @@ export default function AppFooter () {
               className="footer-link"
               rel="noreferrer">
               Technical Documention
+            </a>
+            <a href="https://research-software-directory.github.io/RSD-as-a-service"
+              target="_blank"
+              className="footer-link"
+              rel="noreferrer">
+              Imprint
+            </a>
+            <a href="https://research-software-directory.github.io/RSD-as-a-service"
+              target="_blank"
+              className="footer-link"
+              rel="noreferrer">
+              Data Protection Declaration
             </a>
           </div>
         </div>
