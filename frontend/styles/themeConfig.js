@@ -9,9 +9,8 @@
  * You can use multiple theme providers/overwrite current theme,
  * the last assigned theme is applied to its children.
  */
-const defaultTheme = require('./themeDefault')
-const darkTheme = require('./themeDark')
-const helmholtzTheme = require('./themeHelmholtz')
+const defaultTheme = require('./themeHelmholtz')
+const darkTheme = require('./themeHelmholtzDark')
 // example eScience theme loading
 // const escienceTheme = require('./themeEscience')
 
@@ -24,12 +23,6 @@ function getThemeConfig(theme) {
     //     colors: escienceTheme.colors,
     //     muiTypography: escienceTheme.muiTypography
     //   }
-    case 'helmholtz':
-      return {
-        colors: helmholtzTheme.colors,
-        fonts: helmholtzTheme.fonts,
-        muiTypography: helmholtzTheme.muiTypography
-      }
     case 'dark':
       return {
         colors: darkTheme.colors,
@@ -38,13 +31,9 @@ function getThemeConfig(theme) {
       }
     default:
       return {
-        // TODO: change back
-        // colors: defaultTheme.colors,
-        // fonts: defaultTheme.fonts,
-        // muiTypography: defaultTheme.muiTypography
-        colors: helmholtzTheme.colors,
-        fonts: helmholtzTheme.fonts,
-        muiTypography: helmholtzTheme.muiTypography
+        colors: defaultTheme.colors,
+        fonts: defaultTheme.fonts,
+        muiTypography: defaultTheme.muiTypography
       }
   }
 }
