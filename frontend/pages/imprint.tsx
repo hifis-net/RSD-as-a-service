@@ -3,10 +3,10 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import Head from "next/head";
-import PageContainer from "~/components/layout/PageContainer";
-import DefaultLayout from "~/components/layout/DefaultLayout";
-import PageTitle from "~/components/layout/PageTitle";
+import Head from 'next/head'
+import PageContainer from '~/components/layout/PageContainer'
+import DefaultLayout from '~/components/layout/DefaultLayout'
+import PageTitle from '~/components/layout/PageTitle'
 
 export default function Imprint() {
     return (
@@ -27,12 +27,12 @@ export default function Imprint() {
                         Telegrafenberg<br/>
                         14473 Potsdam, Germany<br/>
                         Tel.: +49 331 288 0<br/>
-                        Website: <a href="https://www.gfz-potsdam.de" target="_blank">www.gfz-potsdam.de</a><br/>
+                        Website: <a href="https://www.gfz-potsdam.de" target="_blank" rel="noreferrer">www.gfz-potsdam.de</a><br/>
                     </div>
                 </section>
                 <section className="py-2">
                     <h2>Legal form</h2>
-                    <p className="py-1">The Helmholtz Centre Potsdam German Research Centre for Geosciences - GFZ is a Public Law Foundation. The GFZ is member of the <a href="https://www.helmholtz.de/" target="_blank">Helmholtz-Gemeinschaft Deutscher Forschungszentren e.V. (Helmholtz Association of German Research Centres)</a>.</p>
+                    <p className="py-1">The Helmholtz Centre Potsdam German Research Centre for Geosciences - GFZ is a Public Law Foundation. The GFZ is member of the <a href="https://www.helmholtz.de/" target="_blank" rel="noreferrer">Helmholtz-Gemeinschaft Deutscher Forschungszentren e.V. (Helmholtz Association of German Research Centres)</a>.</p>
                 </section>
                 <section className="py-2">
                     <h2>Authorised representatives</h2>
