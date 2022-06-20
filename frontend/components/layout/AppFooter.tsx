@@ -68,18 +68,9 @@ export default function AppFooter () {
               rel="noreferrer">
               Technical Documention
             </a>
-            <a href="https://research-software-directory.github.io/RSD-as-a-service"
-              target="_blank"
-              className="footer-link"
-              rel="noreferrer">
-              Imprint
-            </a>
-            <a href="https://research-software-directory.github.io/RSD-as-a-service"
-              target="_blank"
-              className="footer-link"
-              rel="noreferrer">
-              Data Protection Declaration
-            </a>
+            <Link href="/imprint" passHref>
+              <a className="footer-link">Imprint</a>
+            </Link>
           </div>
         </div>
       </div>
