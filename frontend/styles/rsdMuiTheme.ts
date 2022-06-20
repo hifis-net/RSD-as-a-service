@@ -2,6 +2,8 @@
 // SPDX-FileCopyrightText: 2021 - 2022 dv4all
 // SPDX-FileCopyrightText: 2022 Jesús García Gonzalez (Netherlands eScience Center) <j.g.gonzalez@esciencecenter.nl>
 // SPDX-FileCopyrightText: 2022 Netherlands eScience Center
+// SPDX-FileCopyrightText: 2022 Marc Hanisch (GFZ) <marc.hanisch@gfz-potsdam.de>
+// SPDX-FileCopyrightText: 2022 Helmholtz Centre Potsdam - GFZ German Research Centre for Geosciences
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -15,10 +17,11 @@
 
 import {createTheme} from '@mui/material/styles'
 // import default colors, typography and getThemeMethod for loading theme configuration
-import {colors,muiTypography,getThemeConfig} from './themeConfig'
+import {colors,fonts,muiTypography,getThemeConfig} from './themeConfig'
 
 type MuiColorSchema = typeof colors
 type MuiTypography = typeof muiTypography
+type Fonts = typeof fonts
 
 /**
  * EXAMPLE of extendings MUI-5 theme interface
@@ -31,7 +34,8 @@ type MuiTypography = typeof muiTypography
 // }
 
 export type ThemeConfig = {
-  colors: MuiColorSchema
+  colors: MuiColorSchema,
+  fonts: Fonts,
   muiTypography: MuiTypography
 }
 

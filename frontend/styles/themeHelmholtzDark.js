@@ -1,4 +1,6 @@
 // SPDX-FileCopyrightText: 2022 Dusan Mijatovic (dv4all)
+// SPDX-FileCopyrightText: 2022 Jesús García Gonzalez (Netherlands eScience Center) <j.g.gonzalez@esciencecenter.nl>
+// SPDX-FileCopyrightText: 2022 Netherlands eScience Center
 // SPDX-FileCopyrightText: 2022 dv4all
 // SPDX-FileCopyrightText: 2022 Marc Hanisch (GFZ) <marc.hanisch@gfz-potsdam.de>
 // SPDX-FileCopyrightText: 2022 Helmholtz Centre Potsdam - GFZ German Research Centre for Geosciences
@@ -11,21 +13,21 @@
  */
 
 const colors = {
-  primary:'#60a5fa',
-  secondary:'#000',
-  textPrimary:'rgba(200,200,200,1)',
-  textSecondary:'rgba(34,36,37,0.87)',
+  primary:'#14c8ff', /* Primary Light Blue */
+  secondary:'#002864', /* Primary Blue */
+  textPrimary:'#ffffff', /* Primary Blue */
+  textSecondary:'#14c8ff', /* Primary Light Blue */
   textDisabled:'rgba(34,36,37,0.45)',
-  divider:'#ddd',
-  contrastText:'#fff',
+  divider:'#cdeefb', /* Secondary Highlight Blue */
+  contrastText:'#cdeefb', /* Secondary Highlight Blue */
   error:'#e53935',
-  warning:'#ed6c02',
-  info:'#0288d1',
-  success:'#2e7d32',
-  black:'#fff',
-  white: '#fafafa',
-  background: '#000',
-  paper: '#000',
+  warning:'#fa7833', /* Tertiary Light Orange */
+  info:'#cdeefb', /* Secondary Highlight Blue */
+  success:'#8cd600', /* Tertiary Light Green */
+  black:'#000',
+  white: '#fff',
+  background: '#fff',
+  paper: '#fff', /* Secondary Web Pale Blue */
   grey: {
     50: '#fafafa',
     100: '#f5f5f5',
@@ -39,7 +41,8 @@ const colors = {
     900: '#212121',
     A100: '#f5f5f5',
     A200: '#eeeeee',
-    A400: '#bdbdbd',
+    // tailwind neutral is A400 in MUI
+    A400: '#909090',
     A700: '#616161',
   }
 }
@@ -60,7 +63,7 @@ const fonts={
   // Note! If you're using custom (local or remote) font faces, those fonts must
   // be loaded within styles/global.css
   default: [
-    'Roboto',
+    'Helmholtz Halvar Mittel Rg',
     'Helvetica',
     'arial',
     'sans-serif'
