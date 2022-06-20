@@ -71,6 +71,12 @@ export default function AppFooter () {
             <Link href="/imprint" passHref>
               <a className="footer-link">Imprint</a>
             </Link>
+            <a href="https://www.gfz-potsdam.de/en/data-protection/"
+              target="_blank"
+              className="footer-link"
+              rel="noreferrer">
+              Data protection declaration
+            </a>
           </div>
         </div>
       </div>
