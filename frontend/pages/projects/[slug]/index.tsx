@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: 2021 - 2022 Dusan Mijatovic (dv4all)
+// SPDX-FileCopyrightText: 2021 - 2022 dv4all
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import {useEffect, useState} from 'react'
 import {ScriptProps} from 'next/script'
 
@@ -16,10 +21,10 @@ import {
   KeywordForProject, Project, ProjectLink,
   RelatedProject, ResearchDomain
 } from '~/types/Project'
-import {MentionForProject} from '~/types/Mention'
+import {MentionItemProps} from '~/types/Mention'
 import {Contributor} from '~/types/Contributor'
 import {ProjectOrganisationProps} from '~/types/Organisation'
-import {RelatedSoftwareOfProject} from '~/types/SoftwareTypes'
+import {RelatedSoftwareOfProject, SoftwareListItem} from '~/types/SoftwareTypes'
 import AppHeader from '~/components/layout/AppHeader'
 import EditButton from '~/components/layout/EditButton'
 import ContentInTheMiddle from '~/components/layout/ContentInTheMiddle'
@@ -35,6 +40,7 @@ import ProjectMentions from '~/components/projects/ProjectMentions'
 import ContributorsSection from '~/components/software/ContributorsSection'
 import RelatedProjectsSection from '~/components/projects/RelatedProjectsSection'
 import RelatedSoftwareSection from '~/components/software/RelatedSoftwareSection'
+import NoContent from '~/components/layout/NoContent'
 
 export interface ProjectPageProps extends ScriptProps{
   slug: string
@@ -44,10 +50,10 @@ export interface ProjectPageProps extends ScriptProps{
   researchDomains: ResearchDomain[],
   keywords: KeywordForProject[],
   links: ProjectLink[],
-  output: MentionForProject[],
-  impact: MentionForProject[],
+  output: MentionItemProps[],
+  impact: MentionItemProps[],
   team: Contributor[],
-  relatedSoftware: RelatedSoftwareOfProject[],
+  relatedSoftware: SoftwareListItem[],
   relatedProjects: RelatedProject[]
 }
 
@@ -65,13 +71,9 @@ export default function ProjectPage(props: ProjectPageProps) {
   }, [])
 
   if (!project?.title){
-    return (
-      <ContentInTheMiddle>
-        <h2>No content</h2>
-      </ContentInTheMiddle>
-    )
+    return <NoContent />
   }
-  // console.log('ProjectItemPage...relatedSoftware...', relatedSoftware)
+  // console.log('ProjectItemPage...output...', output)
   return (
     <>
       {/* Page Head meta tags */}

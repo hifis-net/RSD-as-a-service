@@ -1,3 +1,10 @@
+// SPDX-FileCopyrightText: 2022 Dusan Mijatovic (dv4all)
+// SPDX-FileCopyrightText: 2022 Helmholtz Centre Potsdam - GFZ German Research Centre for Geosciences
+// SPDX-FileCopyrightText: 2022 Matthias Rüster (GFZ) <matthias.ruester@gfz-potsdam.de>
+// SPDX-FileCopyrightText: 2022 dv4all
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import {useState, ReactNode, HTMLAttributes, SyntheticEvent, useEffect} from 'react'
 import Autocomplete, {AutocompleteChangeReason, AutocompleteRenderOptionState} from '@mui/material/Autocomplete'
 import {CircularProgress, FilterOptionsState, TextField} from '@mui/material'
@@ -22,9 +29,10 @@ export type AsyncAutocompleteConfig = {
   // makes help text red on true
   error?: boolean
   noOptions?: {
-    empty:string,
+    empty: string,
     minLength: string,
-    notFound: string
+    notFound: string,
+    loading?: string
   }
 }
 
@@ -155,13 +163,15 @@ export default function AsyncAutocompleteSC<T>({status, options, config,
   // dynamic no options messaging
   function noOptionsMessage() {
     // debugger
-    if (!newInputValue ||
+    if (loading === true) {
+      return config?.noOptions?.loading ?? 'Loading...'
+    } else if (!newInputValue ||
       newInputValue.length === 0
     ) {
       return config?.noOptions?.empty ?? 'Type something'
     } else if (newInputValue.length < config.minLength) {
       return config?.noOptions?.minLength ?? 'Keep typing ...'
-    } else if (foundFor && loading===false) {
+    } else if (foundFor && loading === false) {
       return config?.noOptions?.notFound ?? 'No options'
     }
   }

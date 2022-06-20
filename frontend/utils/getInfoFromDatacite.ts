@@ -1,3 +1,10 @@
+// SPDX-FileCopyrightText: 2022 Dusan Mijatovic (dv4all)
+// SPDX-FileCopyrightText: 2022 Helmholtz Centre Potsdam - GFZ German Research Centre for Geosciences
+// SPDX-FileCopyrightText: 2022 Matthias Rüster (GFZ) <matthias.ruester@gfz-potsdam.de>
+// SPDX-FileCopyrightText: 2022 dv4all
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import {Contributor} from '~/types/Contributor'
 import {createJsonHeaders} from './fetchHelpers'
 import logger from './logger'
@@ -28,6 +35,16 @@ const exampleSubject = {
   'schemeURI': 'http://dewey.info/',
   'lang': 'en-us'
 }
+
+const exampleRightsList = [
+  {
+    'rights': 'Open Access',
+    'rightsUri': 'info:eu-repo/semantics/openAccess',
+    'schemeUri': 'https://spdx.org/licenses/',
+    'rightsIdentifier': 'cc-by-4.0',
+    'rightsIdentifierScheme': 'SPDX'
+  }
+]
 
 const exampleResponse = {
   'id': 'https://doi.org/10.0000/zenodo.0000000',
@@ -72,15 +89,7 @@ const exampleResponse = {
   ],
   'formats': [],
   'version': 'v0.0.0',
-  'rightsList': [
-    {
-      'rights': 'Open Access',
-      'rightsUri': 'info:eu-repo/semantics/openAccess',
-      'schemeUri': 'https://spdx.org/licenses/',
-      'rightsIdentifier': 'cc-by-4.0',
-      'rightsIdentifierScheme': 'SPDX'
-    }
-  ],
+  'rightsList': exampleRightsList,
   'descriptions': [
     {
       'description': 'Example description',
@@ -107,6 +116,7 @@ const exampleResponse = {
 export type DataciteRecord = typeof exampleResponse
 export type DatacitePerson = typeof exampleCreator
 export type DataciteSubject = typeof exampleSubject
+export type DataciteRightsList = typeof exampleRightsList
 
 const baseUrl = 'https://api.datacite.org/application/vnd.datacite.datacite+json/'
 const orcidPattern = /^\d{4}-\d{4}-\d{4}-\d{3}[0-9X]$/
@@ -216,10 +226,8 @@ export async function getContributorsFromDoi(
   return contributors
 }
 
-export async function getKeywordsFromDoi(
-  softwareId: string | undefined, doiId: string | null | undefined
-) {
-  if (!doiId || !softwareId) {
+export async function getKeywordsFromDoi(doiId: string | null | undefined) {
+  if (!doiId) {
     return []
   }
 
@@ -239,4 +247,28 @@ export async function getKeywordsFromDoi(
   }
 
   return keywords
+}
+
+export async function getLicensesFromDoi(doiId: string | null | undefined) {
+  if (!doiId) {
+    return []
+  }
+
+  const doiData = await getDoiInfo(doiId)
+
+  if (!doiData || !('rightsList' in doiData)) {
+    return []
+  }
+
+  const allLicenses: DataciteRightsList = doiData['rightsList']
+  const spdxLicenses = []
+
+  for (const license of allLicenses) {
+    // extract all licenses with an identifier
+    if (license.rightsIdentifier) {
+      spdxLicenses.push(license.rightsIdentifier)
+    }
+  }
+
+  return spdxLicenses
 }

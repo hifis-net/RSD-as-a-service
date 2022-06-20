@@ -1,3 +1,10 @@
+// SPDX-FileCopyrightText: 2022 Dusan Mijatovic (dv4all)
+// SPDX-FileCopyrightText: 2022 Helmholtz Centre Potsdam - GFZ German Research Centre for Geosciences
+// SPDX-FileCopyrightText: 2022 Matthias Rüster (GFZ) <matthias.ruester@gfz-potsdam.de>
+// SPDX-FileCopyrightText: 2022 dv4all
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import {useState} from 'react'
 import {Control, useFieldArray} from 'react-hook-form'
 
@@ -12,10 +19,12 @@ import useSnackbar from '~/components/snackbar/useSnackbar'
 import GetKeywordsFromDoi from './GetKeywordsFromDoi'
 
 
-export default function SoftwareKeywords({software, control,concept_doi}:
-  { software: string, control: Control<EditSoftwareItem, any>, concept_doi?: string }) {
-  const {showErrorMessage,showSuccessMessage,showInfoMessage} = useSnackbar()
-  const [loading,setLoading]=useState(false)
+export default function SoftwareKeywords(
+  {software, control, concept_doi}:
+  { software: string, control: Control<EditSoftwareItem, any>, concept_doi?: string }
+) {
+  const {showErrorMessage, showSuccessMessage, showInfoMessage} = useSnackbar()
+  const [loading, setLoading] = useState(false)
   const {fields, append, remove} = useFieldArray({
     control,
     name: 'keywords',
@@ -33,9 +42,7 @@ export default function SoftwareKeywords({software, control,concept_doi}:
 
     setLoading(true)
 
-    const keywordsDoi: string[] = await getKeywordsFromDoi(
-      software, concept_doi
-    )
+    const keywordsDoi: string[] = await getKeywordsFromDoi(concept_doi)
 
     if (keywordsDoi && keywordsDoi.length === 0) {
       showInfoMessage(

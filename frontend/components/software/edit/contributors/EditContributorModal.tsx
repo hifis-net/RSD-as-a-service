@@ -1,9 +1,15 @@
+// SPDX-FileCopyrightText: 2022 Christian Meeßen (GFZ) <christian.meessen@gfz-potsdam.de>
+// SPDX-FileCopyrightText: 2022 Dusan Mijatovic (dv4all)
+// SPDX-FileCopyrightText: 2022 Helmholtz Centre Potsdam - GFZ German Research Centre for Geosciences
+// SPDX-FileCopyrightText: 2022 dv4all
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import {useEffect,useState, useContext} from 'react'
 import {
   Button, Dialog, DialogActions, DialogContent,
   DialogTitle, useMediaQuery
 } from '@mui/material'
-import SaveIcon from '@mui/icons-material/Save'
 import DeleteIcon from '@mui/icons-material/Delete'
 import {useForm} from 'react-hook-form'
 
@@ -16,6 +22,7 @@ import {contributorInformation as config} from '../editSoftwareConfig'
 import {getDisplayInitials, getDisplayName} from '../../../../utils/getDisplayName'
 import logger from '../../../../utils/logger'
 import ControlledAffiliation from '~/components/form/ControlledAffiliation'
+import SubmitButtonWithListener from '~/components/form/SubmitButtonWithListener'
 
 type EditContributorModalProps = {
   open: boolean,
@@ -25,8 +32,10 @@ type EditContributorModalProps = {
   pos?: number
 }
 
+const formId='edit-contributor-modal'
+
 export default function EditContributorModal({open, onCancel, onSubmit, contributor, pos}: EditContributorModalProps) {
-  const {showErrorMessage} = useSnackbar()
+  const {showWarningMessage} = useSnackbar()
   const smallScreen = useMediaQuery('(max-width:600px)')
   const [b64Image, setB64Image]=useState<string>()
   const {handleSubmit, watch, formState, reset, control, register, setValue} = useForm<Contributor>({
@@ -63,7 +72,7 @@ export default function EditContributorModal({open, onCancel, onSubmit, contribu
       // check file size
       if (file.size > 2097152) {
         // file is to large > 2MB
-        showErrorMessage('The file is too large. Please select image < 2MB.')
+        showWarningMessage('The file is too large. Please select image < 2MB.')
         return
       }
       let reader = new FileReader()
@@ -106,7 +115,9 @@ export default function EditContributorModal({open, onCancel, onSubmit, contribu
       }}>
         Contributor
       </DialogTitle>
-      <form onSubmit={handleSubmit((data: Contributor) => onSubmit({data, pos}))}
+      <form
+        id={formId}
+        onSubmit={handleSubmit((data: Contributor) => onSubmit({data, pos}))}
         autoComplete="off"
       >
         {/* hidden inputs */}
@@ -173,7 +184,7 @@ export default function EditContributorModal({open, onCancel, onSubmit, contribu
                   useNull: true,
                   defaultValue: contributor?.given_names,
                   helperTextMessage: config.given_names.help,
-                  // helperTextCnt: `${formData?.given_names?.length || 0}/${config.given_names.validation.maxLength.value}`,
+                  helperTextCnt: `${formData?.given_names?.length || 0}/${config.given_names.validation.maxLength.value}`,
                 }}
                 rules={config.given_names.validation}
               />
@@ -186,7 +197,7 @@ export default function EditContributorModal({open, onCancel, onSubmit, contribu
                   useNull: true,
                   defaultValue: contributor?.family_names,
                   helperTextMessage: config.family_names.help,
-                  // helperTextCnt: `${formData?.family_names?.length || 0}/${config.family_names.validation.maxLength.value}`,
+                  helperTextCnt: `${formData?.family_names?.length || 0}/${config.family_names.validation.maxLength.value}`,
                 }}
                 rules={config.family_names.validation}
               />
@@ -203,7 +214,7 @@ export default function EditContributorModal({open, onCancel, onSubmit, contribu
                 useNull: true,
                 defaultValue: contributor?.email_address,
                 helperTextMessage: config.email_address.help,
-                // helperTextCnt: `${formData?.email_address?.length || 0}/${config.email_address.validation.maxLength.value}`,
+                helperTextCnt: `${formData?.email_address?.length || 0}/${config.email_address.validation.maxLength.value}`,
               }}
               rules={config.email_address.validation}
             />
@@ -229,7 +240,7 @@ export default function EditContributorModal({open, onCancel, onSubmit, contribu
                 useNull: true,
                 defaultValue: contributor?.role,
                 helperTextMessage: config.role.help,
-                // helperTextCnt: `${formData?.role?.length || 0}/${config.role.validation.maxLength.value}`,
+                helperTextCnt: `${formData?.role?.length || 0}/${config.role.validation.maxLength.value}`,
               }}
               rules={config.role.validation}
             />
@@ -265,23 +276,10 @@ export default function EditContributorModal({open, onCancel, onSubmit, contribu
           >
             Cancel
           </Button>
-          <Button
-            tabIndex={0}
-            type="submit"
-            variant="contained"
-            sx={{
-              // overwrite tailwind preflight.css for submit type
-              '&[type="submit"]:not(.Mui-disabled)': {
-                backgroundColor:'primary.main'
-              }
-            }}
-            endIcon={
-              <SaveIcon />
-            }
+          <SubmitButtonWithListener
+            formId={formId}
             disabled={isSaveDisabled()}
-          >
-            Save
-          </Button>
+          />
         </DialogActions>
       </form>
     </Dialog>

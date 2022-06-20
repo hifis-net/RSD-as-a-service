@@ -1,13 +1,18 @@
+// SPDX-FileCopyrightText: 2021 - 2022 Dusan Mijatovic (dv4all)
+// SPDX-FileCopyrightText: 2021 - 2022 dv4all
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import {OrganisationRole} from '~/types/Organisation'
 import {TeamMemberProps} from '~/types/Contributor'
-import {MentionForProject} from '~/types/Mention'
+import {mentionColumns, MentionForProject, MentionItemProps} from '~/types/Mention'
 import {
   KeywordForProject,
   OrganisationsOfProject, Project,
   ProjectLink, RawProject, RelatedProjectForProject,
   ResearchDomain, SearchProject, TeamMember
 } from '~/types/Project'
-import {RelatedSoftwareOfProject} from '~/types/SoftwareTypes'
+import {RelatedSoftwareOfProject, SoftwareListItem} from '~/types/SoftwareTypes'
 import {getUrlFromLogoId} from './editOrganisation'
 import {extractCountFromHeader} from './extractCountFromHeader'
 import {createJsonHeaders} from './fetchHelpers'
@@ -342,10 +347,8 @@ export async function getLinksForProject({project, token, frontend = false}:
 export async function getOutputForProject({project, token, frontend}:
   {project: string, token?: string, frontend?: boolean}) {
   try {
-    // select only specific colums
-    const cols = 'id,date,is_featured,title,type,url,image,author'
     // build query url
-    const query = `mention?select=${cols},output_for_project!inner(project)&output_for_project.project=eq.${project}&order=type.asc`
+    const query = `mention?select=${mentionColumns},output_for_project!inner(project)&output_for_project.project=eq.${project}&order=mention_type.asc`
     // base url
     let url = `${process.env.POSTGREST_URL}/${query}`
     if (frontend) {
@@ -358,25 +361,29 @@ export async function getOutputForProject({project, token, frontend}:
     })
     if (resp.status === 200) {
       const data: MentionForProject[] = await resp.json()
-      return data
-    } else if (resp.status === 404) {
-      logger(`getOutputForProject: 404 [${url}]`, 'error')
-      // query not found
-      return undefined
+      // cover to plain mention
+      const mentions: MentionItemProps[] = data.map(item => {
+        if (item?.output_for_project) {
+          delete item.output_for_project
+        }
+        return item
+      })
+      return mentions
     }
+    logger(`getOutputForProject: [${resp.status}] [${url}]`, 'error')
+    // query not found
+    return []
   } catch (e: any) {
     logger(`getOutputForProject: ${e?.message}`, 'error')
-    return undefined
+    return []
   }
 }
 
 export async function getImpactForProject({project, token, frontend}:
   { project: string, token?: string, frontend?: boolean }) {
   try {
-    // select only specific colums
-    const cols = 'id,date,is_featured,title,type,url,image,author'
     // build query url
-    const query = `mention?select=${cols},impact_for_project!inner(project)&impact_for_project.project=eq.${project}&order=type.asc`
+    const query = `mention?select=${mentionColumns},impact_for_project!inner(project)&impact_for_project.project=eq.${project}&order=mention_type.asc`
     // base url
     let url = `${process.env.POSTGREST_URL}/${query}`
     if (frontend) {
@@ -389,15 +396,21 @@ export async function getImpactForProject({project, token, frontend}:
     })
     if (resp.status === 200) {
       const data: MentionForProject[] = await resp.json()
-      return data
-    } else if (resp.status === 404) {
-      logger(`getImpactForProject: 404 [${url}]`, 'error')
-      // query not found
-      return undefined
+      // cover to plain mention
+      const mentions: MentionItemProps[] = data.map(item => {
+        if (item?.impact_for_project) {
+          delete item.impact_for_project
+        }
+        return item
+      })
+      return mentions
     }
+    logger(`getImpactForProject: [${resp.status}] [${url}]`, 'error')
+    // query not found
+    return []
   } catch (e: any) {
     logger(`getImpactForProject: ${e?.message}`, 'error')
-    return undefined
+    return []
   }
 }
 
@@ -478,7 +491,7 @@ export async function getRelatedProjectsForProject({project, token, frontend, ap
 export async function getRelatedSoftwareForProject({project, token, frontend, approved = true}:
   { project: string, token?: string, frontend?: boolean, approved?: boolean}) {
   try {
-    let query = `rpc/related_software_for_project?project=eq.${project}&order=brand_name.asc`
+    let query = `rpc/related_software_for_project?project_id=${project}&order=brand_name.asc`
     if (approved) {
       // select only approved relations
       query += '&status=eq.approved'
@@ -522,9 +535,9 @@ export async function searchForRelatedProjectByTitle({project, searchFor, token}
     if (resp.status === 200) {
       const json: SearchProject[] = await resp.json()
       return json
-    } else {
-      return []
     }
+    logger(`searchForRelatedProjectByTitle: ${resp.status} ${resp.statusText} [${url}]`, 'warn')
+    return []
   } catch (e: any) {
     logger(`searchForRelatedProjectByTitle: ${e?.message}`, 'error')
     return []

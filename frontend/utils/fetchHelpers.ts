@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: 2022 Dusan Mijatovic (dv4all)
+// SPDX-FileCopyrightText: 2022 dv4all
+//
+// SPDX-License-Identifier: Apache-2.0
+
 export type AuthHeader = {
   'Content-Type': string;
   Authorization?: string;
@@ -77,4 +82,24 @@ export function extractErrorMessages(responses: { status: number, message: strin
     }
   })
   return errors
+}
+
+
+type GrapQLResponse = {
+  data?: any,
+  errors?:any
+}
+
+export async function extractRespFromGraphQL(resp: Response) {
+  const json: GrapQLResponse = await resp.json()
+  if (json?.errors && json.errors.length > 0) {
+    return {
+      status: 500,
+      message: json.errors[0]?.message ?? 'Unknown error'
+    }
+  }
+  return {
+    status: 200,
+    data: json?.data ?? undefined
+  }
 }

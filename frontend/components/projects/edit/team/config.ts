@@ -1,3 +1,9 @@
+// SPDX-FileCopyrightText: 2022 Dusan Mijatovic (dv4all)
+// SPDX-FileCopyrightText: 2022 Ewan Cahen (Netherlands eScience Center) <e.cahen@esciencecenter.nl>
+// SPDX-FileCopyrightText: 2022 Netherlands eScience Center
+// SPDX-FileCopyrightText: 2022 dv4all
+//
+// SPDX-License-Identifier: Apache-2.0
 
 export const cfgTeamMembers = {
   title: 'Team Members',
@@ -5,7 +11,7 @@ export const cfgTeamMembers = {
     title: 'Add member',
     subtitle: 'We search by name in RSD and ORCID databases',
     label: 'Find or add team memeber',
-    help: 'At least 3 letters, use pattern {First name} {Last name}',
+    help: 'At least 2 letters, use pattern {First name} {Last name}',
     validation: {
       // custom validation rule, not in use by react-hook-form
       minLength: 2,
@@ -38,7 +44,7 @@ export const cfgTeamMembers = {
     help: 'Contact person should have an email',
     validation: {
       minLength: {value: 5, message: 'Minimum length is 5'},
-      maxLength: {value: 100, message: 'Maximum length is 100'},
+      maxLength: {value: 200, message: 'Maximum length is 200'},
       pattern: {
         value: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
         message: 'Invalid email address'
@@ -66,7 +72,7 @@ export const cfgTeamMembers = {
     help: '16 digits, pattern 0000-0000-0000-0000',
     validation: {
       pattern: {
-        value: /\d{4}-\d{4}-\d{4}-\d{3}[0-9X]/,
+        value: /^\d{4}-\d{4}-\d{4}-\d{3}[0-9X]$/,
         message: 'Invalid pattern, not a 0000-0000-0000-0000'
       }
     }
