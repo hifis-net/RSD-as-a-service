@@ -9,7 +9,7 @@ const colors = {
   textPrimary:'#002864', /* Primary Blue */
   textSecondary:'#14c8ff', /* Primary Light Blue */
   textDisabled:'rgba(34,36,37,0.45)',
-  divider:'#00ff00',
+  divider:'#cdeefb', /* Secondary Highlight Blue */
   contrastText:'#05e5ba', /* Secondary Mint */
   error:'#e53935',
   warning:'#fa7833', /* Tertiary Light Orange */
@@ -18,11 +18,11 @@ const colors = {
   black:'#000',
   white: '#fff',
   background: '#fff',
-  paper: '#fff', /* Secondary Web Pale Blue */
+  paper: '#fff',
   grey: {
     50: '#fafafa',
     100: '#f5f5f5',
-    200: '#eeeeee',
+    200: '#ecfbfd', /* Secondary Web Pale Blue */
     300: '#e0e0e0',
     400: '#bdbdbd',
     500: '#9e9e9e',
