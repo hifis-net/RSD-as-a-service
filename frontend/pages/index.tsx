@@ -53,9 +53,9 @@ export default function Home() {
         {/* Header  */}
         <header
           data-testid="Landing Page"
-          className="sticky top-0 px-5 md:px-10 z-10 bg-secondary">
+          className="sticky top-0 xl:px-10 z-10 bg-secondary mx-auto">
 
-          <div className="w-full max-w-screen-xl mx-auto flex py-6 items-center">
+          <div className="lg:container lg:mx-auto flex px-4 py-6 items-center">
             <Link href="/" passHref>
               <a className="hover:shadow-2xl">
                 <LogoApp className="hidden xl:block"/>
