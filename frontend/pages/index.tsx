@@ -87,6 +87,7 @@ export default function Home() {
           </div>
         </header>
 
+        {/* Head and claim */}
         <div className="bg-secondary">
           <PageContainer className="flex flex-row flex-wrap text-white px-4 pt-16 pb-12">
             <div className="w-1/3 min-w-min flex flex-col pr-10">
@@ -103,6 +104,7 @@ export default function Home() {
           </PageContainer>
         </div>
 
+        {/* Software spotlights */}
         <div className="bg-white">
           <PageContainer className="text-secondary px-4 pt-6 pb-12">
             <h1 className="pb-4">Software Spotlights</h1>
@@ -110,6 +112,7 @@ export default function Home() {
           </PageContainer>
         </div>
 
+        {/* Software meta repository */}
         <div className="bg-secondary">
           <PageContainer className="text-white px-4 pt-6 pb-12">
             <h1 className="pb-4">Software Meta Repository</h1>
@@ -117,6 +120,7 @@ export default function Home() {
           </PageContainer>
         </div>
 
+        {/* Roadmap */}
         <div className="bg-white">
           <PageContainer className="text-secondary px-4 pt-6 pb-12">
             <h1 className="pb-4">Roadmap</h1>
