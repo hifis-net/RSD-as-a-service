@@ -19,17 +19,13 @@ import LogoAppSmall from '~/assets/LogoAppSmall.svg'
 import LoginButton from '~/components/login/LoginButton'
 import styles from '~/components/home/home.module.css'
 
-import LogoEscience from '~/assets/logos/LogoEscience.svg'
-import LogoSurf from '~/assets/logos/LogoSurf.svg'
 import LogoHelmholtz from '~/assets/logos/LogoHelmholtz.svg'
-import LogoUMC from '~/assets/logos/LogoUMC.svg'
-import LogoUU from '~/assets/logos/LogoUU.svg'
-import LogoLeiden from '~/assets/logos/LogoLeiden.svg'
 
-import Arc from '~/components/home/arc.svg'
 /*! purgecss start ignore */
 import 'aos/dist/aos.css'
 /*! purgecss end ignore */
+
+import PageContainer from '~/components/layout/PageContainer'
 
 
 const whyrsd = [
@@ -53,11 +49,11 @@ export default function Home() {
   useEffect(() => { AOS.init() }, [])
 
   return (
-      <div className="bg-white dark:bg-black dark:text-white">
+      <div className="bg-white text-white bg-secondary">
         {/* Header  */}
         <header
           data-testid="Landing Page"
-          className="sticky top-0 px-5 md:px-10 z-10 backdrop-filter backdrop-blur-xl bg-white dark:bg-black bg-opacity-60 dark:bg-opacity-60">
+          className="sticky top-0 px-5 md:px-10 z-10 bg-secondary">
 
           <div className="w-full max-w-screen-xl mx-auto flex py-6 items-center">
             <Link href="/" passHref>
@@ -85,232 +81,50 @@ export default function Home() {
             {/*         placeholder="Search Software" autoComplete="off"/>*/}
             {/*</div>*/}
 
-            <ThemeSwitcher className="mr-3"/>
+            {/*<ThemeSwitcher className="mr-3"/>*/}
 
             <LoginButton/>
           </div>
-
         </header>
 
-        {/* Jumbo Banner  */}
-        <div className="mx-auto mt-20 relative overflow-x-clip">
-
-          {/* Jumbo Image*/}
-          <div className="max-w-[1200px] mx-auto ">
-            <div className="
-
-              absolute
-              w-full
-              h-full
-              -top-[170px] md:-top-48
-              -left-[60px] md:left-[50%]
-              opacity-50 md:opacity-100
-                ">
-            <Image src="/images/illustration.webp" width="847" height="760"
-              alt="rsd-illustration"
-            />
-            </div>
-          </div>
-
-          <div className="w-full max-w-screen-xl p-5 md:p-10 mx-auto">
-            {/* Jumbo Text*/}
-            <div className="w-full md:w-1/2 flex flex-col justify-center"
-                 data-aos="fade" data-aos-offset="200" data-aos-delay="50" data-aos-duration="1000"
-            >
-              <div className="text-5xl font-rsd-titles font-bold">
-                Encouraging the <br/>re-use of research software
+        <div className="bg-secondary">
+          <PageContainer className="flex flex-row flex-wrap text-white px-4 pt-16 pb-12">
+            <div className="w-1/2 flex flex-col pr-10">
+              <LogoHelmholtz width="220" />
+              <div className="pt-2">Spitzenforschung für<br />große Herausforderungen.</div>
+              <div className="w-[250px] bg-primary hover:bg-grey-500 text-white text-center font-medium text-2xl mt-12 py-4 px-6 rounded-sm">
+                Add your software
               </div>
-              <div className="mt-8 text-lg">
-                To promote the visibility, impact and reuse of research software,
-                <span className="text-transparent bg-clip-text bg-gradient-to-tr from-blue-500 to-green-400 px-1">
-                  the Netherlands eScience Center
-                </span>
-                 has developed the Research Software Directory, a content management system tailored to software.
-              </div>
-
-              {/* Email  */}
-              {/* <div className="mt-10 flex gap-4">
-              <input type="email"
-                     className="border p-3 text-xl flex-1 text-white bg-transparent rounded-sm focus:outline-none"
-                     placeholder="Email address"/>
-
-
-              <button type="submit" className="relative group">
-                <div
-                  className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-300"></div>
-                <div
-                  className="relative px-3 py-3 bg-white ring-1 ring-gray-900/5 rounded leading-none flex items-center space-x-2">
-                    <span className="space-y-2 text-black text-xl whitespace-nowrap">
-                    Sign up for the RSD
-                    </span>
-                </div>
-
-              </button>
-
-            </div>*/}
-
-            <div className="mt-10 flex gap-4"
-                 data-aos="fade" data-aos-offset="200" data-aos-delay="50" data-aos-duration="1000">
-              <button type="submit" className="relative group">
-                <div
-                  className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-300"/>
-                <a
-                  href="mailto:rsd@esciencecenter.nl?subject=More information about the RSD&body=Hi, I would like to get in contact to start my organization within the Research Software Directory"
-                  className="flex gap-3 text-black relative px-3 py-3 bg-white ring-1 ring-gray-900/5 rounded leading-none flex items-center space-x-2 ">
-                    <span className="space-y-2 text-xl whitespace-nowrap ">
-                      Sign up for the RSD
-                    </span>
-                </a>
-              </button>
             </div>
+            <div className="w-1/2 xs:pt-6 sm:pt-0 md:pt-0 lg:pt-0 xl:pt-0">
+              <div className="text-3xl">Promote your own and discover existing Research Software</div>
+              <div className="text-2xl">Because software matters</div>
             </div>
-          </div>
+          </PageContainer>
         </div>
 
-        {/*  Divider  */}
-        <div className="w-full max-w-screen-xl mx-auto border-t border-[#90909060] mt-[80px]"></div>
-
-        {/* stats  */}
-        <div className="w-full max-w-screen-xl mx-auto flex flex-wrap gap-10 md:gap-16 p-5 md:p-10 ">
-          <div>
-            <div className="text-lg"> 30+ thousands</div>
-            <div className="opacity-40">Researchers</div>
-          </div>
-
-          <div>
-            <div className="text-lg">20 Research Centers</div>
-            <div className="opacity-40">Organizations</div>
-          </div>
-
-          <div>
-            <div className="text-lg"> 500+ Software</div>
-            <div className="opacity-40">Packages</div>
-          </div>
+        <div className="bg-white">
+          <PageContainer className="text-secondary px-4 pt-6 pb-12">
+            <h1 className="pb-4">Software Spotlights</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Proin libero nunc consequat interdum. Pretium vulputate sapien nec sagittis aliquam malesuada bibendum arcu. Id volutpat lacus laoreet non curabitur gravida arcu. Amet mauris commodo quis imperdiet massa tincidunt nunc. Varius sit amet mattis vulputate. Suscipit adipiscing bibendum est ultricies integer. Hendrerit gravida rutrum quisque non tellus. Eget felis eget nunc lobortis mattis aliquam. Integer enim neque volutpat ac tincidunt vitae. Condimentum id venenatis a condimentum vitae sapien pellentesque habitant.</p>
+          </PageContainer>
         </div>
 
-        <div className="bg-[#eee] dark:bg-[#111]">
-          {/* Arc separator  */}
-          <Arc className="w-full text-white dark:text-black -translate-y-1"></Arc>
-
-
-          {/* cards  */}
-          <div
-            className="w-full max-w-screen-xl mt-6 mx-auto flex-col grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-3 p-2 ">
-            <div className=""
-                 data-aos="fade-up" data-aos-offset="0" data-aos-delay="0" data-aos-duration="400"
-                 data-aos-easing="ease-in-out"
-            >
-              <div className={`${styles.card} h-full`}>
-                <div className={styles.cardInside}
-                     style={{backgroundImage: 'url("/images/bg_card.svg")'}}>
-                  <div className="flex flex-col justify-center">
-                    <div className="text-3xl font-medium">
-                      Discover
-                    </div>
-                    <div className="text-lg mt-5">
-                      Find and judge the relevance and quality of <span className="text-blue-400"> research software </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className=""
-                 data-aos="fade-up" data-aos-offset="0" data-aos-delay="50" data-aos-duration="400"
-                 data-aos-easing="ease-in-out">
-              <div className={`${styles.card} h-full`}>
-                <div className={styles.cardInside}
-                     style={{backgroundImage: 'url("/images/bg_card.svg")'}}>
-                  <div className="flex flex-col justify-center" style={{}}
-                  >
-                    <div className="text-3xl font-medium">
-                      Recognize
-                    </div>
-                    <div className="text-lg mt-5">Encourages research software engineers to make
-                      their research software findable and accessible, ensuring
-                      recognition of their work
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className=""
-                 data-aos="fade-up" data-aos-offset="0" data-aos-delay="100" data-aos-duration="400"
-                 data-aos-easing="ease-in-out">
-              <div className={`${styles.card} h-full`}>
-                <div className={styles.cardInside}
-                     style={{backgroundImage: 'url("/images/bg_card.svg")'}}>
-                  <div className="flex flex-col justify-center">
-                    <div className="text-3xl font-medium">
-                      Impact
-                    </div>
-                    <div className="text-lg mt-5">Facilitates research institutes to showcase the
-                      software produced by their organization and
-                      monitor its reuse and impact
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-          {/* Logos  */}
-          <div className="w-full max-w-screen-xl mx-auto mt-10 p-5 md:p-10">
-            <div id="whyrsd" className="text-2xl font-medium opacity-50">Partner Organizations</div>
-            <div
-              className="flex gap-10 w-full max-w-screen-xl flex-wrap mt-6 p-3 md:p-10 items-center opacity-30">
-              <LogoEscience className="max-w-[160px]"/>
-              <LogoSurf className="max-w-[75px]"/>
-              <LogoHelmholtz className="max-w-[130px]"/>
-              <LogoUMC className="max-w-[200px]"/>
-              <LogoUU className="max-w-[220px]"/>
-              <LogoLeiden className="max-w-[220px]"/>
-            </div>
-          </div>
-
-
-          {/* Why RSD */}
-          <div className="w-full max-w-screen-xl mx-auto p-5 md:p-10"
-               data-aos="fade" data-aos-offset="0" data-aos-duration="400"
-               data-aos-easing="ease-in-out">
-            <div id="whyrsd" className="text-3xl font-rsd-titles font-bold">Why the RSD?</div>
-
-            {/* software into context  */}
-            <div className={`${styles.card} w-full max-w-screen-xl mx-auto mt-5`}
-                 data-aos="fade" data-aos-offset="0" data-aos-duration="400"
-                 data-aos-easing="ease-in-out">
-              <div className={styles.cardInside}
-                   style={{backgroundImage: 'url("/images/context_bg.svg")'}}>
-                <div className="flex flex-col justify-center dark:text-white text-black">
-                  <div className="text-3xl  font-medium">
-                    Software in context
-                  </div>
-                  <div className="text-lg mt-5">All software on the research Software Directory is
-                    presented within its research context. Every page
-                    contains links to research papers, projects, and presentations for example. The
-                    pages also show a social context- who are the
-                    developers, how active is the development, are there ay tutorials, blog posts,
-                    or videos?
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <ul className="mt-10 ">
-              {whyrsd.map((text, i) =>
-                <li className="flex gap-3 items-center mt-3 text-lg" key={i}>
-                  <span className="w-auto"><SimpleCircle/> </span>{text}
-                </li>
-              )}
-            </ul>
-          </div>
-
-          {/* Footer */}
-          <div className="mt-20">
-            <AppFooter/>
-          </div>
+        <div className="bg-secondary">
+          <PageContainer className="text-white px-4 pt-6 pb-12">
+            <h1 className="pb-4">Software Meta Repository</h1>
+            <p className="text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Proin libero nunc consequat interdum. Pretium vulputate sapien nec sagittis aliquam malesuada bibendum arcu. Id volutpat lacus laoreet non curabitur gravida arcu. Amet mauris commodo quis imperdiet massa tincidunt nunc. Varius sit amet mattis vulputate. Suscipit adipiscing bibendum est ultricies integer. Hendrerit gravida rutrum quisque non tellus. Eget felis eget nunc lobortis mattis aliquam. Integer enim neque volutpat ac tincidunt vitae. Condimentum id venenatis a condimentum vitae sapien pellentesque habitant.</p>
+          </PageContainer>
         </div>
+
+        <div className="bg-white">
+          <PageContainer className="text-secondary px-4 pt-6 pb-12">
+            <h1 className="pb-4">Roadmap</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Proin libero nunc consequat interdum. Pretium vulputate sapien nec sagittis aliquam malesuada bibendum arcu. Id volutpat lacus laoreet non curabitur gravida arcu. Amet mauris commodo quis imperdiet massa tincidunt nunc. Varius sit amet mattis vulputate. Suscipit adipiscing bibendum est ultricies integer. Hendrerit gravida rutrum quisque non tellus. Eget felis eget nunc lobortis mattis aliquam. Integer enim neque volutpat ac tincidunt vitae. Condimentum id venenatis a condimentum vitae sapien pellentesque habitant.</p>
+          </PageContainer>
+        </div>
+
+        <AppFooter/>
       </div>
   )
 }
