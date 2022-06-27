@@ -107,7 +107,8 @@ export default function Home() {
         {/* Software spotlights */}
         <div className="bg-white">
           <PageContainer className="text-secondary px-4 pt-6 pb-12">
-            <h1 className="pb-4">Software Spotlights</h1>
+            <h1>Software Spotlights</h1>
+            <h2 className="pb-4">Browse the latest outstanding software products in Helmholtz</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Proin libero nunc consequat interdum. Pretium vulputate sapien nec sagittis aliquam malesuada bibendum arcu. Id volutpat lacus laoreet non curabitur gravida arcu. Amet mauris commodo quis imperdiet massa tincidunt nunc. Varius sit amet mattis vulputate. Suscipit adipiscing bibendum est ultricies integer. Hendrerit gravida rutrum quisque non tellus. Eget felis eget nunc lobortis mattis aliquam. Integer enim neque volutpat ac tincidunt vitae. Condimentum id venenatis a condimentum vitae sapien pellentesque habitant.</p>
           </PageContainer>
         </div>
@@ -115,7 +116,8 @@ export default function Home() {
         {/* Software meta repository */}
         <div className="bg-secondary">
           <PageContainer className="text-white px-4 pt-6 pb-12">
-            <h1 className="pb-4">Software Meta Repository</h1>
+            <h1>Software Meta Repository</h1>
+            <h2 className="pb-4">Browse Software by Research Topic</h2>
             <p className="text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Proin libero nunc consequat interdum. Pretium vulputate sapien nec sagittis aliquam malesuada bibendum arcu. Id volutpat lacus laoreet non curabitur gravida arcu. Amet mauris commodo quis imperdiet massa tincidunt nunc. Varius sit amet mattis vulputate. Suscipit adipiscing bibendum est ultricies integer. Hendrerit gravida rutrum quisque non tellus. Eget felis eget nunc lobortis mattis aliquam. Integer enim neque volutpat ac tincidunt vitae. Condimentum id venenatis a condimentum vitae sapien pellentesque habitant.</p>
             <div className="flex justify-end mt-12">
               <Link
