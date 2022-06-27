@@ -89,14 +89,14 @@ export default function Home() {
 
         <div className="bg-secondary">
           <PageContainer className="flex flex-row flex-wrap text-white px-4 pt-16 pb-12">
-            <div className="w-1/2 flex flex-col pr-10">
+            <div className="w-1/3 flex flex-col pr-10">
               <LogoHelmholtz width="220" />
               <div className="pt-2">Spitzenforschung für<br />große Herausforderungen.</div>
               <div className="w-[250px] bg-primary hover:bg-grey-500 text-white text-center font-medium text-2xl mt-12 py-4 px-6 rounded-sm">
                 Add your software
               </div>
             </div>
-            <div className="w-1/2 xs:pt-6 sm:pt-0 md:pt-0 lg:pt-0 xl:pt-0">
+            <div className="w-2/3 xs:pt-6 sm:pt-0 md:pt-0 lg:pt-0 xl:pt-0">
               <div className="text-3xl">Promote your own and discover existing Research Software</div>
               <div className="text-2xl">Because software matters</div>
             </div>
