@@ -45,7 +45,7 @@ export default function CitationDoi({doi}:{doi:string}) {
     <div className="py-4 md:pb-8">
       <h3 className="text-sm pb-1">DOI:</h3>
       <div className="flex flex-col md:flex-row items-center">
-        <div className="w-full bg-[#2e3132] p-4">
+        <div className="w-full bg-info text-secondary p-4">
           {doi}
         </div>
         <Button
