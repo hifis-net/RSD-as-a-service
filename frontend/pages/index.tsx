@@ -92,8 +92,8 @@ export default function Home() {
           <PageContainer className="flex flex-row flex-wrap text-white px-4 pt-16 pb-12">
             <div className="w-1/3 min-w-min flex flex-col pr-10">
               <LogoHelmholtz width="220" />
-              <div className="pt-2">Spitzenforschung für<br />große Herausforderungen.</div>
-              <div className="w-[250px] bg-primary hover:bg-grey-500 text-white text-center font-medium text-2xl mt-12 py-4 px-6 rounded-sm">
+              <div className="pt-2 pb-12">Spitzenforschung für<br />große Herausforderungen.</div>
+              <div className="w-[250px] bg-[#05e5ba] hover:bg-primary text-secondary hover:text-white text-center font-medium text-2xl py-4 px-6 rounded-sm">
                 Add your software
               </div>
             </div>
@@ -118,9 +118,16 @@ export default function Home() {
             <h1 className="pb-4">Software Meta Repository</h1>
             <p className="text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Proin libero nunc consequat interdum. Pretium vulputate sapien nec sagittis aliquam malesuada bibendum arcu. Id volutpat lacus laoreet non curabitur gravida arcu. Amet mauris commodo quis imperdiet massa tincidunt nunc. Varius sit amet mattis vulputate. Suscipit adipiscing bibendum est ultricies integer. Hendrerit gravida rutrum quisque non tellus. Eget felis eget nunc lobortis mattis aliquam. Integer enim neque volutpat ac tincidunt vitae. Condimentum id venenatis a condimentum vitae sapien pellentesque habitant.</p>
             <div className="flex justify-end mt-12">
-              <div className="w-[250px] bg-primary hover:bg-grey-500 text-white text-center font-medium text-2xl py-4 px-6 rounded-sm">
-                Discover software
-              </div>
+              <Link
+                href="/software"
+                passHref
+              >
+                <a>
+                  <div className="w-[250px] bg-[#05e5ba] hover:bg-primary text-secondary hover:text-white text-center font-medium text-2xl py-4 px-6 rounded-sm">
+                    Discover software
+                  </div>
+                </a>
+              </Link>
             </div>
           </PageContainer>
         </div>
