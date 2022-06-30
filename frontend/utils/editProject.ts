@@ -10,7 +10,6 @@
 import {UseFieldArrayUpdate} from 'react-hook-form'
 
 import {Session} from '~/auth'
-import isMaintainerOfOrganisation from '~/auth/permissions/isMaintainerOfOrganisation'
 import logger from './logger'
 import {createJsonHeaders, extractErrorMessages, extractReturnMessage} from './fetchHelpers'
 import {
@@ -337,6 +336,8 @@ export async function createFundingOrganisationAndAddToProject({project,organisa
       // new image to upload
       logo_b64: null,
       logo_mime_type: null,
+      // funding organisation come from ROR
+      source: 'ROR'
     }
     // create organisation in RSD
     let resp = await createOrganisation({
@@ -474,6 +475,29 @@ export async function addOrganisationToProject({project, organisation, role, ses
     return extractReturnMessage(resp, project ?? '')
   } catch (e: any) {
     logger(`addOrganisationToProject: ${e?.message}`, 'error')
+    return {
+      status: 500,
+      message: e?.message
+    }
+  }
+}
+
+export async function patchProjectForOrganisation({project, organisation, data, token}:
+  { project: string, organisation: string, data: any, token: string }) {
+  try {
+    const query = `project=eq.${project}&organisation=eq.${organisation}`
+    const url = `/api/v1/project_for_organisation?${query}`
+    const resp = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        ...createJsonHeaders(token),
+        'Prefer': 'return=headers-only'
+      },
+      body: JSON.stringify(data)
+    })
+    return extractReturnMessage(resp)
+  } catch (e: any) {
+    debugger
     return {
       status: 500,
       message: e?.message
