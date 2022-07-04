@@ -83,7 +83,7 @@ export default function Home() {
         </header>
 
         {/* Head and claim */}
-        <div className="bg-secondary" style={{background: 'linear-gradient(to bottom, transparent, #002864), url("/images/bg_hifis_rsd.jpg")'}}>
+        <div className="bg-secondary bg-landing-page">
           <PageContainer className="flex flex-row flex-wrap text-white px-4 pt-16 pb-12">
             <div className="w-1/3 min-w-min flex flex-col pr-10">
               <LogoHelmholtz width="220" />
@@ -101,7 +101,7 @@ export default function Home() {
 
         {/* Software spotlights */}
         <div className="bg-white">
-          <PageContainer className="text-secondary px-4 pt-6 pb-12">
+          <PageContainer className="text-secondary px-6 pt-6 pb-12 xl:shadow-xl">
             <h1>Software Spotlights</h1>
             <h2 className="pb-4">Browse the latest outstanding software products in Helmholtz</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Proin libero nunc consequat interdum. Pretium vulputate sapien nec sagittis aliquam malesuada bibendum arcu. Id volutpat lacus laoreet non curabitur gravida arcu. Amet mauris commodo quis imperdiet massa tincidunt nunc. Varius sit amet mattis vulputate. Suscipit adipiscing bibendum est ultricies integer. Hendrerit gravida rutrum quisque non tellus. Eget felis eget nunc lobortis mattis aliquam. Integer enim neque volutpat ac tincidunt vitae. Condimentum id venenatis a condimentum vitae sapien pellentesque habitant.</p>
@@ -109,8 +109,8 @@ export default function Home() {
         </div>
 
         {/* Software meta repository */}
-        <div className="bg-secondary">
-          <PageContainer className="text-white px-4 pt-6 pb-12">
+        <div className="bg-secondary xl:bg-white">
+          <PageContainer className="bg-secondary text-white px-6 pt-6 pb-12 xl:shadow-xl">
             <h1>Software Meta Repository</h1>
             <h2 className="pb-4">Browse Software by Research Topic</h2>
             <p className="text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Proin libero nunc consequat interdum. Pretium vulputate sapien nec sagittis aliquam malesuada bibendum arcu. Id volutpat lacus laoreet non curabitur gravida arcu. Amet mauris commodo quis imperdiet massa tincidunt nunc. Varius sit amet mattis vulputate. Suscipit adipiscing bibendum est ultricies integer. Hendrerit gravida rutrum quisque non tellus. Eget felis eget nunc lobortis mattis aliquam. Integer enim neque volutpat ac tincidunt vitae. Condimentum id venenatis a condimentum vitae sapien pellentesque habitant.</p>
@@ -131,7 +131,7 @@ export default function Home() {
 
         {/* Roadmap */}
         <div className="bg-white">
-          <PageContainer className="text-secondary px-4 pt-6 pb-12">
+          <PageContainer className="text-secondary px-6 pt-6 pb-12 xl:shadow-xl">
             <h1 className="pb-4">Roadmap</h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Proin libero nunc consequat interdum. Pretium vulputate sapien nec sagittis aliquam malesuada bibendum arcu. Id volutpat lacus laoreet non curabitur gravida arcu. Amet mauris commodo quis imperdiet massa tincidunt nunc. Varius sit amet mattis vulputate. Suscipit adipiscing bibendum est ultricies integer. Hendrerit gravida rutrum quisque non tellus. Eget felis eget nunc lobortis mattis aliquam. Integer enim neque volutpat ac tincidunt vitae. Condimentum id venenatis a condimentum vitae sapien pellentesque habitant.</p>
           </PageContainer>
