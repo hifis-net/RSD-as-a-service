@@ -47,6 +47,16 @@ export default function Home({software,projects,organisations}:HomeProps) {
   // Initialize AOS library
   useEffect(() => { AOS.init() }, [])
 
+  const handleClickOpen = () => {
+    const loginButton = document.querySelector('.rsd-login-button')
+    if (loginButton) {
+      const evt = new MouseEvent('click', {
+        bubbles: true
+      })
+      loginButton.dispatchEvent(evt)
+    }
+  }
+
   return (
       <div className="bg-white text-white bg-secondary">
 
@@ -58,9 +68,11 @@ export default function Home({software,projects,organisations}:HomeProps) {
             <div className="w-1/3 min-w-min flex flex-col pr-10">
               <LogoHelmholtz width="220" />
               <div className="pt-2 pb-12">Spitzenforschung für<br />große Herausforderungen.</div>
-              <div className="w-[250px] bg-[#05e5ba] hover:bg-primary text-secondary hover:text-white text-center font-medium text-2xl py-4 px-6 rounded-sm">
-                Add your software
-              </div>
+              <a onClick={handleClickOpen}>
+                <div className="w-[250px] bg-[#05e5ba] hover:bg-primary text-secondary hover:text-white text-center font-medium text-2xl py-4 px-6 rounded-sm">
+                  Add your software
+                </div>
+              </a>
             </div>
             <div className="w-2/3 xs:pt-6 sm:pt-0 md:pt-0 lg:pt-0 xl:pt-0">
               <div className="text-3xl">Promote your own and discover existing Research Software</div>
