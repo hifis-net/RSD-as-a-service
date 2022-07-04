@@ -8,8 +8,6 @@
 import {useEffect, useState} from 'react'
 import AOS from 'aos'
 import AppFooter from '~/components/layout/AppFooter'
-import ThemeSwitcher from '~/components/layout/ThemeSwitcher'
-import SimpleCircle from '~/components/svg/SimpleCircle'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -26,7 +24,6 @@ import 'aos/dist/aos.css'
 /*! purgecss end ignore */
 
 import PageContainer from '~/components/layout/PageContainer'
-
 
 const whyrsd = [
   'Improves findability of software packages.',
@@ -80,8 +77,6 @@ export default function Home() {
             {/*  <input type="search" className="bg-transparent focus:outline-none"*/}
             {/*         placeholder="Search Software" autoComplete="off"/>*/}
             {/*</div>*/}
-
-            {/*<ThemeSwitcher className="mr-3"/>*/}
 
             <LoginButton/>
           </div>
