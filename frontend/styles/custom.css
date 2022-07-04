@@ -8,5 +8,6 @@
   background: linear-gradient(rgb(0, 40, 100), 35%, transparent) repeat scroll 0% 0%, rgba(0, 0, 0, 0) url("/images/bg_hifis_rsd.jpg") repeat scroll 0% 0%;
 }
 header input {
-  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  background: rgba(255, 255, 255, 0.25) !important;
+  border: none !important;
 }
