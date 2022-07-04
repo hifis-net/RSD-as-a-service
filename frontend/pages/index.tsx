@@ -83,7 +83,7 @@ export default function Home() {
         </header>
 
         {/* Head and claim */}
-        <div className="bg-secondary">
+        <div className="bg-secondary" style={{background: 'linear-gradient(to bottom, transparent, #002864), url("/images/bg_hifis_rsd.jpg")'}}>
           <PageContainer className="flex flex-row flex-wrap text-white px-4 pt-16 pb-12">
             <div className="w-1/3 min-w-min flex flex-col pr-10">
               <LogoHelmholtz width="220" />
