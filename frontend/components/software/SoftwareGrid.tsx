@@ -3,7 +3,6 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import ContentInTheMiddle from '../layout/ContentInTheMiddle'
 import SoftwareCard from './SoftwareCard'
 import FlexibleGridSection, {FlexGridProps} from '../layout/FlexibleGridSection'
 import NoContent from '../layout/NoContent'
@@ -41,6 +40,7 @@ export default function SoftwareGrid({software,grid,className='gap-[0.125rem] pt
             brand_name={item.brand_name}
             short_statement={item.short_statement ?? ''}
             is_featured={item?.is_featured ?? false}
+            is_published={item?.is_published}
             updated_at={item.updated_at ?? null}
             mention_cnt={item?.mention_cnt ?? null}
             contributor_cnt={item?.contributor_cnt ?? null}

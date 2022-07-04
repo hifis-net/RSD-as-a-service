@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 
 import AddIcon from '@mui/icons-material/Add'
 import Button from '@mui/material/Button'
@@ -15,11 +15,11 @@ import {EditOrganisation, OrganisationForOverview} from '../../../types/Organisa
 import {
   createOrganisation, deleteOrganisationLogo,
   newOrganisationProps, updateOrganisation,
-  updateDataObjectAfterSave
+  updateDataObjectAfterSave,
+  deleteOrganisation
 } from '../../../utils/editOrganisation'
 import useOrganisationUnits from '../../../utils/useOrganisationUnits'
 import {sortOnStrProp} from '../../../utils/sortFn'
-import logger from '../../../utils/logger'
 import UnitsList from './ResearchUnitList'
 import ResearchUnitModal from './ResearchUnitModal'
 
@@ -29,9 +29,9 @@ type EditOrganisationModal = {
   organisation?: EditOrganisation
 }
 
-export default function ResearchUnits({organisation, session, isMaintainer}:
-  {organisation: OrganisationForOverview, session: Session, isMaintainer: boolean }) {
-  const {showErrorMessage} = useSnackbar()
+export default function ResearchUnits({organisation, session}:
+  {organisation: OrganisationForOverview, session: Session}) {
+  const {showErrorMessage,showSuccessMessage} = useSnackbar()
   const {units, setUnits,loading} = useOrganisationUnits({
     organisation: organisation.id,
     token: session.token
@@ -39,9 +39,20 @@ export default function ResearchUnits({organisation, session, isMaintainer}:
   const [modal, setModal] = useState<EditOrganisationModal>({
     open: false
   })
+  const [isPrimary,setPrimary]=useState(organisation.primary_maintainer===session.user?.account)
+
+  useEffect(() => {
+    let abort = false
+    if (organisation.primary_maintainer === session.user?.account ||
+      session?.user?.role === 'rsd_admin') {
+      if (abort) return
+      setPrimary(true)
+    }
+    return ()=>{abort=true}
+  },[organisation.primary_maintainer,session.user?.account,session.user?.role])
 
   function renderAddBtn() {
-    if (isMaintainer) {
+    if (isPrimary) {
       return (
         <Button
           startIcon={<AddIcon />}
@@ -59,7 +70,9 @@ export default function ResearchUnits({organisation, session, isMaintainer}:
       const newOrganisation:EditOrganisation = newOrganisationProps({
         name:'',
         position: 1,
-        primary_maintainer: session?.user?.account ?? null,
+        // the primary_maintainer of parent is also
+        // primary_maintainer of child organisations
+        primary_maintainer: organisation.primary_maintainer ?? '',
         parent: organisation.id
       })
       // show modal
@@ -168,12 +181,25 @@ export default function ResearchUnits({organisation, session, isMaintainer}:
     }
   }
 
-  function onDeleteUnit(pos: number) {
+  async function onDeleteUnit(pos: number) {
     // TODO!
     // DELETE is more involved as it would need
     // to REMOVE logo, all software and projects
     // BEFORE removing the organisation
-    logger('ResearchUnits: TODO! delete not implemented','warn')
+    // logger('ResearchUnits: TODO! delete not implemented', 'warn')
+    const unit = units[pos]
+    if (unit) {
+      const resp = await deleteOrganisation({
+        uuid: unit.id,
+        logo_id: unit.logo_id,
+        token: session.token
+      })
+      if (resp.status === 200) {
+        showSuccessMessage(`${unit.name} is removed`)
+      } else {
+        showErrorMessage(`Failed to remove ${unit.name}. ${resp.message}`)
+      }
+    }
   }
 
   function renderUnitList() {
@@ -183,7 +209,7 @@ export default function ResearchUnits({organisation, session, isMaintainer}:
     return (
       <UnitsList
         organisations={units}
-        isMaintainer={isMaintainer}
+        isMaintainer={isPrimary}
         onEdit={onEditUnit}
         onDelete={onDeleteUnit}
       />

@@ -17,11 +17,11 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 const {colors,muiTypography,fonts} = require('./styles/themeConfig')
 
 module.exports = {
-  // disable preflight = normalize by tailwind
-  // corePlugins: {
-  //   preflight: false,
-  // },
   darkMode: 'class',
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/line-clamp'),
+  ],
   content: [
     './auth/**/*.{js,ts,jsx,tsx}',
     './pages/**/*.{js,ts,jsx,tsx}',
@@ -69,7 +69,7 @@ module.exports = {
         paper: colors.paper,
         grey: colors.grey,
       },
-      fontWeight:{
+      fontWeight: {
         regular: muiTypography.fontWeightRegular
       }
     },
@@ -77,7 +77,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [
-    require('@tailwindcss/typography'),
-  ],
+
 }

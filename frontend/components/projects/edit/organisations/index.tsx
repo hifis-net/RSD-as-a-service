@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import {useEffect, useState} from 'react'
+import {useState} from 'react'
 
 import {Session} from '~/auth'
 import ContentLoader from '~/components/layout/ContentLoader'
@@ -76,8 +76,6 @@ export default function ProjectOrganisations({session}: { session: Session }) {
       if (resp.status === 200) {
         // update status received in message
         addOrganisation.status = resp.message
-        // assume logo is uploaded?!?
-        addOrganisation.logo_id = item.id
         addOrganisationToList(addOrganisation)
       } else {
         showErrorMessage(resp.message)

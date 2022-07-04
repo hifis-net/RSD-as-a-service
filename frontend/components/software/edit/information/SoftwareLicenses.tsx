@@ -6,7 +6,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import {HTMLAttributes, useState} from 'react'
-import {Control, useFieldArray, useForm} from 'react-hook-form'
+import {Control, useFieldArray} from 'react-hook-form'
 
 import GetLicensesFromDoi from './GetLicensesFromDoi'
 import {softwareInformation as config} from '../editSoftwareConfig'
@@ -110,7 +110,7 @@ export default function SoftwareLicenses(
       }
     })
     const sorted = found.sort((a, b) => sortBySearchFor(a, b, 'label', searchFor))
-    debugger
+    // debugger
     // set options
     setOptions(found)
     // debugger

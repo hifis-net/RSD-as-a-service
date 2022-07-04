@@ -13,8 +13,7 @@ const NoContentText = styled('h2')(({theme}:{theme?:Theme}) => ({
   fontWeight: 500,
   letterSpacing: '0.25rem',
   textTransform: 'uppercase',
-  padding: '1rem 0rem',
-  // color: theme?.palette.grey[500]
+  padding: '1rem 0rem'
 }))
 
 const NoContentBody = styled('div')(({theme}:{theme?:Theme}) => ({
@@ -46,7 +45,7 @@ export default function NoContent({message='nothing to show'}:{message?:string})
         flex:1,
         overflow: 'hidden'
       }}
-      component="section"
+      component="div"
     >
       <Slide direction="up" in={show} container={containerRef.current}>
         <NoContentBody>

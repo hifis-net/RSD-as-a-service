@@ -18,6 +18,31 @@ import java.util.Base64;
 public class Main {
 	static final long ONE_HOUR_IN_SECONDS = 3600; // 60 * 60
 
+	public static boolean userIsAllowed (OpenIdInfo info) {
+		String whitelist = Config.userMailWhitelist();
+
+		if (whitelist == null || whitelist.length() == 0) {
+			// allow any user
+			return true;
+		}
+
+		if (
+			info == null || info.email() == null || info.email().length() == 0
+		) {
+			throw new Error("Unexpected parameters for 'userIsAllowed'");
+		}
+
+		String[] allowed = whitelist.split(";");
+
+		for (String s: allowed) {
+			if (s.equalsIgnoreCase(info.email())) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	public static void main(String[] args) {
 		Javalin app = Javalin.create().start(7000);
 		app.get("/", ctx -> ctx.json("{\"Module\": \"rsd/auth\", \"Status\": \"live\"}"));
@@ -33,10 +58,8 @@ public class Main {
 					OpenIdInfo localInfo = new OpenIdInfo(sub, name, email, organisation);
 
 					AccountInfo accountInfo = new PostgrestAccount(localInfo, "local").account();
-					JwtCreator jwtCreator = new JwtCreator(Config.jwtSigningSecret());
-					String token = jwtCreator.createUserJwt(accountInfo.account(), accountInfo.name());
-					setJwtCookie(ctx, token);
-					setRedirectFromCookie(ctx);
+					boolean isAdmin = isAdmin(email);
+					createAndSetToken(ctx, accountInfo, isAdmin);
 				} catch (RuntimeException ex) {
 					ex.printStackTrace();
 					ctx.status(400);
@@ -51,12 +74,15 @@ public class Main {
 					String code = ctx.formParam("code");
 					String redirectUrl = Config.surfconextRedirect();
 					OpenIdInfo surfconextInfo = new SurfconextLogin(code, redirectUrl).openidInfo();
-					AccountInfo accountInfo = new PostgrestAccount(surfconextInfo, "surfconext").account();
 
-					JwtCreator jwtCreator = new JwtCreator(Config.jwtSigningSecret());
-					String token = jwtCreator.createUserJwt(accountInfo.account(), accountInfo.name());
-					setJwtCookie(ctx, token);
-					setRedirectFromCookie(ctx);
+					if (!userIsAllowed(surfconextInfo)) {
+						throw new RuntimeException("User is not whitelisted");
+					}
+
+					AccountInfo accountInfo = new PostgrestAccount(surfconextInfo, "surfconext").account();
+					String email = surfconextInfo.email();
+					boolean isAdmin = isAdmin(email);
+					createAndSetToken(ctx, accountInfo, isAdmin);
 				} catch (RuntimeException ex) {
 					ex.printStackTrace();
 					ctx.status(400);
@@ -72,11 +98,14 @@ public class Main {
 					String redirectUrl = Config.helmholtzAaiRedirect();
 					OpenIdInfo helmholtzInfo = new HelmholtzAaiLogin(code, redirectUrl).openidInfo();
 
+					if (!userIsAllowed(helmholtzInfo)) {
+						throw new RuntimeException("User is not whitelisted");
+					}
+
 					AccountInfo accountInfo = new PostgrestAccount(helmholtzInfo, "helmholtz").account();
-					JwtCreator jwtCreator = new JwtCreator(Config.jwtSigningSecret());
-					String token = jwtCreator.createUserJwt(accountInfo.account(), accountInfo.name());
-					setJwtCookie(ctx, token);
-					setRedirectFromCookie(ctx);
+					String email = helmholtzInfo.email();
+					boolean isAdmin = isAdmin(email);
+					createAndSetToken(ctx, accountInfo, isAdmin);
 				} catch (RuntimeException ex) {
 					ex.printStackTrace();
 					ctx.status(400);
@@ -107,6 +136,17 @@ public class Main {
 			ctx.status(400);
 			ctx.json("{\"message\": \"invalid JWT\"}");
 		});
+	}
+
+	static boolean isAdmin(String email) {
+		return email != null && !email.isBlank() && Config.rsdAdmins().contains(email);
+	}
+
+	static void createAndSetToken(Context ctx, AccountInfo accountInfo, boolean isAdmin) {
+		JwtCreator jwtCreator = new JwtCreator(Config.jwtSigningSecret());
+		String token = jwtCreator.createUserJwt(accountInfo.account(), accountInfo.name(), isAdmin);
+		setJwtCookie(ctx, token);
+		setRedirectFromCookie(ctx);
 	}
 
 	static void setJwtCookie(Context ctx, String token) {

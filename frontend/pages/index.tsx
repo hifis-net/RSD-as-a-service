@@ -7,23 +7,19 @@
 
 import {useEffect, useState} from 'react'
 import AOS from 'aos'
+import AppHeader from '~/components/AppHeader'
 import AppFooter from '~/components/layout/AppFooter'
 import Link from 'next/link'
 import Image from 'next/image'
 
-import LogoApp from '~/assets/LogoApp.svg'
-import LogoAppSmall from '~/assets/LogoAppSmall.svg'
-
-import LoginButton from '~/components/login/LoginButton'
 import styles from '~/components/home/home.module.css'
 
 import LogoHelmholtz from '~/assets/logos/LogoHelmholtz.svg'
+import PageContainer from '~/components/layout/PageContainer'
 
 /*! purgecss start ignore */
 import 'aos/dist/aos.css'
 /*! purgecss end ignore */
-
-import PageContainer from '~/components/layout/PageContainer'
 
 const whyrsd = [
   'Improves findability of software packages.',
@@ -38,8 +34,14 @@ const whyrsd = [
   'The Research Software Directory is a content management system that is tailored to software.'
 ]
 
+type HomeProps = {
+  software: number,
+  projects: number,
+  organisations: number
+}
 
-export default function Home() {
+
+export default function Home({software,projects,organisations}:HomeProps) {
   const [isDark, setDark] = useState(true)
 
   // Initialize AOS library
@@ -47,40 +49,8 @@ export default function Home() {
 
   return (
       <div className="bg-white text-white bg-secondary">
-        {/* Header  */}
-        <header
-          data-testid="Landing Page"
-          className="sticky top-0 xl:px-10 z-10 bg-secondary mx-auto">
 
-          <div className="lg:container lg:mx-auto flex px-4 py-6 items-center">
-            <Link href="/" passHref>
-              <a className="hover:shadow-2xl">
-                <LogoApp className="hidden xl:block"/>
-                <LogoAppSmall className="block xl:hidden"/>
-              </a>
-            </Link>
-            <div className="flex flex-1">
-              <div className="hidden sm:flex w-full text-lg ml-28 gap-5 text-center opacity-80 ">
-                <a href="#whyrsd">Why RSD</a>
-                <Link href="/software">Software</Link>
-                <Link href="/projects">Projects</Link>
-                <Link href="/organisations">Organisations</Link>
-                {/*<Link href="/about">About us</Link>*/}
-              </div>
-            </div>
-
-            {/*Search*/}
-            {/*<div className="border px-3 py-2 flex relative ml-auto rounded-sm">*/}
-            {/*  <svg className="absolute right-[10px] top-[10px]" width="22" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">*/}
-            {/*    <circle cx="8.98438" cy="9.10718" r="8.22705" stroke="currentColor"/>*/}
-            {/*  </svg>*/}
-            {/*  <input type="search" className="bg-transparent focus:outline-none"*/}
-            {/*         placeholder="Search Software" autoComplete="off"/>*/}
-            {/*</div>*/}
-
-            <LoginButton/>
-          </div>
-        </header>
+        <AppHeader/>
 
         {/* Head and claim */}
         <div className="bg-secondary bg-landing-page">

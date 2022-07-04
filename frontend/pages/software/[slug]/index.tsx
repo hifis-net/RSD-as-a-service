@@ -14,7 +14,7 @@ import PageMeta from '~/components/seo/PageMeta'
 import OgMetaTags from '~/components/seo/OgMetaTags'
 import CitationMeta from '~/components/seo/CitationMeta'
 import CanoncialUrl from '~/components/seo/CanonicalUrl'
-import AppHeader from '~/components/layout/AppHeader'
+import AppHeader from '~/components/AppHeader'
 import AppFooter from '~/components/layout/AppFooter'
 import PageContainer from '~/components/layout/PageContainer'
 import SoftwareIntroSection from '~/components/software/SoftwareIntroSection'
@@ -127,13 +127,11 @@ export default function SoftwareIndexPage(props:SoftwareIndexData) {
       <CanoncialUrl
         canonicalUrl={resolvedUrl}
       />
-      <AppHeader editButton={
-        isMaintainer ?
-        <EditButton
-          title="Edit software"
-          url={`${slug}/edit`} />
+      <AppHeader editButton={ isMaintainer
+        ? <EditButton title="Edit software" url={`${slug}/edit`} />
         : undefined
       }/>
+
       <PageContainer>
         <SoftwareIntroSection
           brand_name={software.brand_name}
@@ -141,6 +139,7 @@ export default function SoftwareIndexPage(props:SoftwareIndexData) {
           counts={softwareIntroCounts}
         />
       </PageContainer>
+
       <GetStartedSection
         get_started_url={software.get_started_url}
         commit_history={repositoryInfo?.commit_history}
@@ -197,7 +196,7 @@ export async function getServerSideProps(context:GetServerSidePropsContext) {
     // extract rsd_token
     const token = cookies['rsd_token']
     const slug = params?.slug?.toString()
-    const account = getAccountFromToken(token)
+    const userInfo = getAccountFromToken(token)
     const software = await getSoftwareItem(slug,token)
     // console.log('getServerSideProps...software...', software)
     if (typeof software == 'undefined'){
@@ -237,7 +236,7 @@ export async function getServerSideProps(context:GetServerSidePropsContext) {
       // relatedProjects
       getRelatedProjectsForSoftware({software: software.id, token, frontend: false}),
       // check if maintainer
-      isMaintainerOfSoftware({slug, account, token, frontend: false}),
+      isMaintainerOfSoftware({slug, account:userInfo?.account, token, frontend: false}),
       // get organisations
       getParticipatingOrganisations({software:software.id,frontend:false,token})
     ]
@@ -270,7 +269,7 @@ export async function getServerSideProps(context:GetServerSidePropsContext) {
         contributors,
         relatedSoftware,
         relatedProjects,
-        isMaintainer,
+        isMaintainer: isMaintainer ? isMaintainer : userInfo?.role==='rsd_admin',
         organisations,
         slug
       }

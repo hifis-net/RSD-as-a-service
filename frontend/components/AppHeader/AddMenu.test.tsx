@@ -6,8 +6,7 @@
 import {render,screen, fireEvent} from '@testing-library/react'
 import {WrappedComponentWithProps} from '../../utils/jest/WrappedComponents'
 
-import AddMenu from './AddMenu'
-import {addMenuItems} from '../../config/addMenuItems'
+import AddMenu from '../AppHeader/AddMenu'
 
 it('should render AddMenu',()=>{
   render(WrappedComponentWithProps(AddMenu))
@@ -23,7 +22,7 @@ it('should have AddMenu options',async()=>{
   fireEvent.click(menuButton as HTMLElement)
   // select all menu options
   const menuOptions = screen.queryAllByTestId('add-menu-option')
-  // assert same length as defined in config/userMenuItems
-  expect(menuOptions.length).toEqual(addMenuItems.length)
+  // assert only 2 items
+  expect(menuOptions.length).toEqual(2)
   // screen.debug()
 })
