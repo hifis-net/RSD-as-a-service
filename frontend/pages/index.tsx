@@ -75,7 +75,7 @@ export default function Home({software,projects,organisations}:HomeProps) {
               </a>
             </div>
             <div className="w-2/3 xs:pt-6 sm:pt-0 md:pt-0 lg:pt-0 xl:pt-0">
-              <div className="text-3xl">Promote your own and discover existing Research Software</div>
+              <div className="text-3xl">Promote and discover Research Software</div>
               <div className="text-2xl">Because software matters</div>
             </div>
           </PageContainer>
