@@ -142,7 +142,7 @@ Tailwind remove max-width for markdown
   max-width: inherit;
   overflow: hidden;
   word-break: break-word;
-  @apply text-secondary
+  font-size: 1.1rem;
 }
 
 /* ---------------------
