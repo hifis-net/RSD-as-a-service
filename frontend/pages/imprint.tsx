@@ -40,7 +40,7 @@ export default function Imprint() {
                 </section>
                 <section className="py-2">
                     <h2>Value added tax ID</h2>
-                    <p className="py-1">Umsatzsteuer-Identifikationsnummer gemäß § 27a UstG: DE138407750</p>
+                    <p className="py-1">VAT Identification Number according to § 27a VAT Tax Act: DE138407750</p>
                 </section>
                 <section className="py-2">
                     <h2>Editorial staff</h2>
