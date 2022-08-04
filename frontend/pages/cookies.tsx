@@ -1,6 +1,9 @@
+// SPDX-FileCopyrightText: 2022 Christian Meeßen (GFZ) <christian.meessen@gfz-potsdam.de>
+// SPDX-FileCopyrightText: 2022 Helmholtz Centre Potsdam - GFZ German Research Centre for Geosciences
 // SPDX-FileCopyrightText: 2022 Matthias Rüster (GFZ) <matthias.ruester@gfz-potsdam.de>
 //
 // SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: EUPL-1.2
 
 import {useEffect} from 'react'
 import getConfig from 'next/config'
@@ -70,13 +73,12 @@ export default function Cookies() {
             matomoId !== undefined && matomoId.length !== 0
           ) &&
           <p className="mb-5">
-            Detailed information about Matomo&apos;s privacy settings is
-            available at <a
+            Detailed information about how our Matomo instance processes the data are available in our <a
               className="text-primary hover:text-secondary"
               target="_blank"
-              href="https://matomo.org/docs/privacy"
+              href="https://www.gfz-potsdam.de/en/data-protection/"
               rel="noreferrer"
-            >https://matomo.org/docs/privacy</a>.
+            >data protection declaration</a>.
           </p>
         }
 
