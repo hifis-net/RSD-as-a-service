@@ -34,7 +34,7 @@ module.exports = {
   },
   // create standalone output to use in docker image
   // and achieve minimal image size (see Dockerfile)
-  output: 'standalone',
+  //output: 'standalone',
   // disable strict mode for react-beautiful-dnd in development
   // see for more info https://nextjs.org/docs/api-reference/next.config.js/react-strict-mode
   reactStrictMode: true,
@@ -55,7 +55,7 @@ module.exports = {
     return config
   },
 
-  env: {
+  publicRuntimeConfig: {
     MATOMO_URL: process.env.MATOMO_URL,
     MATOMO_ID: process.env.MATOMO_ID,
   },
