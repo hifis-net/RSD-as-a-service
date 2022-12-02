@@ -11,9 +11,9 @@ on:
     branches:
       - main
   workflow_dispatch:
-
-env:
-  IMAGE_TAG: ${{ startsWith(github.ref, 'refs/tags/hifis-') && github.ref_name || github.sha }}
+  release:
+    types:
+      - "published"
 
 jobs:
 
@@ -23,7 +23,7 @@ jobs:
     with:
       ghcr_user: ${{github.actor}}
       base_image_name: ghcr.io/hifis-net/rsd-saas/auth
-      image_tag: $IMAGE_TAG
+      image_tag: ${{ startsWith(github.ref, 'refs/tags/hifis-') && github.ref_name || github.sha }}
       dockerfile: authentication/Dockerfile
       docker_context: ./authentication
     secrets:
@@ -35,7 +35,7 @@ jobs:
     with:
       ghcr_user: ${{github.actor}}
       base_image_name: ghcr.io/hifis-net/rsd-saas/database
-      image_tag: $IMAGE_TAG
+      image_tag: ${{ startsWith(github.ref, 'refs/tags/hifis-') && github.ref_name || github.sha }}
       dockerfile: database/Dockerfile
       docker_context: ./database
     secrets:
@@ -47,7 +47,7 @@ jobs:
     with:
       ghcr_user: ${{github.actor}}
       base_image_name: ghcr.io/hifis-net/rsd-saas/backend
-      image_tag: $IMAGE_TAG
+      image_tag: ${{ startsWith(github.ref, 'refs/tags/hifis-') && github.ref_name || github.sha }}
       dockerfile: backend-postgrest/Dockerfile
       docker_context: ./backend-postgrest
     secrets:
@@ -59,7 +59,7 @@ jobs:
     with:
       ghcr_user: ${{github.actor}}
       base_image_name: ghcr.io/hifis-net/rsd-saas/frontend
-      image_tag: $IMAGE_TAG
+      image_tag: ${{ startsWith(github.ref, 'refs/tags/hifis-') && github.ref_name || github.sha }}
       dockerfile: frontend/Dockerfile
       docker_context: ./frontend
     secrets:
@@ -71,7 +71,7 @@ jobs:
     with:
       ghcr_user: ${{github.actor}}
       base_image_name: ghcr.io/hifis-net/rsd-saas/nginx
-      image_tag: $IMAGE_TAG
+      image_tag: ${{ startsWith(github.ref, 'refs/tags/hifis-') && github.ref_name || github.sha }}
       dockerfile: nginx/Dockerfile
       docker_context: ./nginx
     secrets:
@@ -83,7 +83,7 @@ jobs:
     with:
       ghcr_user: ${{github.actor}}
       base_image_name: ghcr.io/hifis-net/rsd-saas/scrapers
-      image_tag: $IMAGE_TAG
+      image_tag: ${{ startsWith(github.ref, 'refs/tags/hifis-') && github.ref_name || github.sha }}
       dockerfile: scrapers/Dockerfile
       docker_context: ./scrapers
     secrets:
