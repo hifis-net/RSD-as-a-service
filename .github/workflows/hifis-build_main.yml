@@ -1,13 +1,19 @@
+# SPDX-FileCopyrightText: 2022 Christian Meeßen (GFZ) <christian.meessen@gfz-potsdam.de>
+# SPDX-FileCopyrightText: 2022 Helmholtz Centre Potsdam - GFZ German Research Centre for Geosciences
 # SPDX-FileCopyrightText: 2022 Helmholtz Centre for Environmental Research (UFZ)
 #
 # SPDX-License-Identifier: Apache-2.0
 
-name: build images
+name: build latest images
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
+
+env:
+  IMAGE_TAG: ${{ startsWith(github.ref, 'refs/tags/hifis-') && github.ref_name || github.sha }}
 
 jobs:
 
@@ -17,7 +23,7 @@ jobs:
     with:
       ghcr_user: ${{github.actor}}
       base_image_name: ghcr.io/hifis-net/rsd-saas/auth
-      image_tag: $GITHUB_SHA
+      image_tag: $IMAGE_TAG
       dockerfile: authentication/Dockerfile
       docker_context: ./authentication
     secrets:
@@ -29,7 +35,7 @@ jobs:
     with:
       ghcr_user: ${{github.actor}}
       base_image_name: ghcr.io/hifis-net/rsd-saas/database
-      image_tag: $GITHUB_SHA
+      image_tag: $IMAGE_TAG
       dockerfile: database/Dockerfile
       docker_context: ./database
     secrets:
@@ -41,7 +47,7 @@ jobs:
     with:
       ghcr_user: ${{github.actor}}
       base_image_name: ghcr.io/hifis-net/rsd-saas/backend
-      image_tag: $GITHUB_SHA
+      image_tag: $IMAGE_TAG
       dockerfile: backend-postgrest/Dockerfile
       docker_context: ./backend-postgrest
     secrets:
@@ -53,7 +59,7 @@ jobs:
     with:
       ghcr_user: ${{github.actor}}
       base_image_name: ghcr.io/hifis-net/rsd-saas/frontend
-      image_tag: $GITHUB_SHA
+      image_tag: $IMAGE_TAG
       dockerfile: frontend/Dockerfile
       docker_context: ./frontend
     secrets:
@@ -65,7 +71,7 @@ jobs:
     with:
       ghcr_user: ${{github.actor}}
       base_image_name: ghcr.io/hifis-net/rsd-saas/nginx
-      image_tag: $GITHUB_SHA
+      image_tag: $IMAGE_TAG
       dockerfile: nginx/Dockerfile
       docker_context: ./nginx
     secrets:
@@ -77,7 +83,7 @@ jobs:
     with:
       ghcr_user: ${{github.actor}}
       base_image_name: ghcr.io/hifis-net/rsd-saas/scrapers
-      image_tag: $GITHUB_SHA
+      image_tag: $IMAGE_TAG
       dockerfile: scrapers/Dockerfile
       docker_context: ./scrapers
     secrets:
