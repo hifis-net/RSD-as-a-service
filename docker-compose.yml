@@ -5,6 +5,7 @@
 # SPDX-FileCopyrightText: 2022 Christian Meeßen (GFZ) <christian.meessen@gfz-potsdam.de>
 # SPDX-FileCopyrightText: 2022 Helmholtz Centre Potsdam - GFZ German Research Centre for Geosciences
 # SPDX-FileCopyrightText: 2022 Matthias Rüster (GFZ) <matthias.ruester@gfz-potsdam.de>
+# SPDX-FileCopyrightText: 2022 Helmholtz Centre for Environmental Research (UFZ)
 #
 # SPDX-License-Identifier: Apache-2.0
 # SPDX-License-Identifier: EUPL-1.2
@@ -14,7 +15,7 @@ version: "3.0"
 services:
   database:
     build: ./database
-    image: rsd/database:1.6.4
+    image: rsd/database:2.0.0
     ports:
     # enable connection from outside (development mode)
      - "5432:5432"
@@ -34,12 +35,12 @@ services:
 
   backend:
     build: ./backend-postgrest
-    image: rsd/backend-postgrest:1.1.0
+    image: rsd/backend-postgrest:1.11.2
     expose:
       - 3500
     environment:
       # it needs to be here to use values from .env file
-      - PGRST_DB_URI=postgres://authenticator:${POSTGRES_AUTHENTICATOR_PASSWORD}@database:5432/${POSTGRES_DB}
+      - PGRST_DB_URI=postgres://authenticator:${POSTGRES_AUTHENTICATOR_PASSWORD}@${POSTGRES_DB_HOST}:${POSTGRES_DB_HOST_PORT}/${POSTGRES_DB}
       - PGRST_DB_ANON_ROLE
       - PGRST_DB_SCHEMA
       - PGRST_SERVER_PORT
@@ -92,7 +93,7 @@ services:
       # dockerfile to use for build
       dockerfile: Dockerfile
     # update version number to correspond to frontend/package.json
-    image: rsd/frontend:1.9.1
+    image: rsd/frontend:1.11.2
     environment:
       # it uses values from .env file
       - POSTGREST_URL
@@ -202,7 +203,7 @@ services:
         - DUID
         - DGID
     # update version number to correspond to frontend/package.json
-    image: rsd/frontend-dev:1.9.1
+    image: rsd/frontend-dev:1.11.2
     ports:
       - "3000:3000"
       - "9229:9229"
