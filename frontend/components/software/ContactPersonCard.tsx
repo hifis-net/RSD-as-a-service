@@ -1,4 +1,6 @@
 // SPDX-FileCopyrightText: 2022 Dusan Mijatovic (dv4all)
+// SPDX-FileCopyrightText: 2022 Ewan Cahen (Netherlands eScience Center) <e.cahen@esciencecenter.nl>
+// SPDX-FileCopyrightText: 2022 Netherlands eScience Center
 // SPDX-FileCopyrightText: 2022 dv4all
 //
 // SPDX-License-Identifier: Apache-2.0
@@ -6,9 +8,11 @@
 /* eslint-disable @next/next/no-img-element */
 import EmailIcon from '@mui/icons-material/Email'
 import Avatar from '@mui/material/Avatar'
+import {getImageUrl} from '~/utils/editImage'
 
 import {Contributor} from '../../types/Contributor'
 import {getDisplayName, getDisplayInitials} from '../../utils/getDisplayName'
+import LogoOrcid from '~/assets/logos/logo-orcid.svg'
 
 
 export default function ContactPersonCard({person}: { person: Contributor|null }) {
@@ -23,13 +27,13 @@ export default function ContactPersonCard({person}: { person: Contributor|null }
           href={`mailto:${person?.email_address}`}
           target="_blank" rel="noreferrer"
         >
-            <EmailIcon sx={{
-              mr: 1,
-              '&:hover': {
-                opacity: 'inherit'
-              }
-            }} color="primary" />
-            Mail {person?.given_names}
+          <EmailIcon sx={{
+            mr: 1,
+            '&:hover': {
+              opacity: 'inherit'
+            }
+          }} color="primary" />
+          Mail {person?.given_names}
         </a>
       )
     }
@@ -42,7 +46,7 @@ export default function ContactPersonCard({person}: { person: Contributor|null }
         {/* <div className="self-center md:mr-8 2xl:mr-0"> */}
         <Avatar
           alt={displayName ?? ''}
-          src={person.avatar_url ?? ''}
+          src={getImageUrl(person.avatar_id) ?? ''}
           sx={{
             width: '7rem',
             height: '7rem',
@@ -62,6 +66,13 @@ export default function ContactPersonCard({person}: { person: Contributor|null }
           <h5 className="py-2">
             {person?.affiliation ?? ''}
           </h5>
+          {person?.orcid && <h5 className="py-2">
+            <a href={'https://orcid.org/' + person.orcid} target="_blank" rel="noreferrer"
+              style={{whiteSpace:'nowrap'}}
+            >
+              <LogoOrcid className="inline max-w-[1.125rem] mr-1" /> {person.orcid}
+            </a>
+          </h5>}
           {renderEmail()}
         </div>
       </div>

@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import {getImageUrl} from '../../utils/getProjects'
+import {getImageUrl} from '../../utils/editImage'
 import ImageAsBackground from '../layout/ImageAsBackground'
 import ReactMarkdownWithSettings from '../layout/ReactMarkdownWithSettings'
 
@@ -41,7 +41,7 @@ export default function ProjectDescription(
     return null
   }
   return (
-    <article className="mb-4">
+    <article className="mb-4 overflow-hidden">
       {getImage()}
       <ReactMarkdownWithSettings
         markdown={description}
