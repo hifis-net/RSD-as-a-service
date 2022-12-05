@@ -149,11 +149,9 @@ export default function Home() {
               <div className="text-xl lg:text-2xl">Because software matters</div>
               <div className="flex pt-8">
                 <Link href="/software" passHref>
-                  <a>
-                    <div className="w-[250px] bg-[#05e5ba] hover:bg-primary text-secondary text-center font-medium text-2xl py-4 px-6 rounded-full">
-                      Browse software
-                    </div>
-                  </a>
+                  <div className="w-[250px] bg-[#05e5ba] hover:bg-primary text-secondary text-center font-medium text-2xl py-4 px-6 rounded-full">
+                    Browse software
+                  </div>
                 </Link>
               </div>
             </div>

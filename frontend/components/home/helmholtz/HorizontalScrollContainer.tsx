@@ -4,10 +4,9 @@
 //
 // SPDX-License-Identifier: EUPL-1.2
 
-import {getUrlFromLogoId} from '~/utils/editOrganisation'
-
 import Link from 'next/link'
 import {OrganisationForOverview} from '~/types/Organisation'
+import {getImageUrl} from '~/utils/editImage'
 
 /* eslint-disable @next/next/no-img-element */
 
@@ -31,12 +30,10 @@ export default function HorizontalScrollContainer(
               >
               <img
                 alt={item.name}
-                src={getUrlFromLogoId(item.logo_id) ?? undefined}
-                className="p-10 hover:cursor-pointer"
+                src={getImageUrl(item.logo_id) ?? undefined}
+                className="p-10 hover:cursor-pointer max-w-none w-auto"
                 style = {{
-                  width: 'auto',
-                  objectFit: 'contain',
-                  aspectRatio: 'auto'
+                  height: '200px',
                 }}
               />
             </Link>
