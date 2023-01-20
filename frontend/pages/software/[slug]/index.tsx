@@ -154,11 +154,13 @@ export default function SoftwareIndexPage(props:SoftwareIndexData) {
       <AboutSection
         brand_name={software.brand_name}
         description={software?.description ?? ''}
+        description_type={software?.description_type}
         keywords={keywords}
         licenses={licenseInfo}
         languages={repositoryInfo?.languages}
         repository={repositoryInfo?.url}
         platform={repositoryInfo?.code_platform}
+        image_id={software.image_id}
       />
       {/* Participating organisations */}
       <OrganisationsSection
