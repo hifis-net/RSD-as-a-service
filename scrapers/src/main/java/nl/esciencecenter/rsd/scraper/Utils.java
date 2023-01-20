@@ -1,8 +1,8 @@
+// SPDX-FileCopyrightText: 2022 - 2023 Ewan Cahen (Netherlands eScience Center) <e.cahen@esciencecenter.nl>
+// SPDX-FileCopyrightText: 2022 - 2023 Netherlands eScience Center
 // SPDX-FileCopyrightText: 2022 Christian Meeßen (GFZ) <christian.meessen@gfz-potsdam.de>
 // SPDX-FileCopyrightText: 2022 Dusan Mijatovic (dv4all)
-// SPDX-FileCopyrightText: 2022 Ewan Cahen (Netherlands eScience Center) <e.cahen@esciencecenter.nl>
 // SPDX-FileCopyrightText: 2022 Helmholtz Centre Potsdam - GFZ German Research Centre for Geosciences
-// SPDX-FileCopyrightText: 2022 Netherlands eScience Center
 // SPDX-FileCopyrightText: 2022 dv4all
 //
 // SPDX-License-Identifier: Apache-2.0
@@ -20,8 +20,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.util.Base64;
 import java.util.Date;
 
@@ -33,8 +31,9 @@ public class Utils {
 
 	/**
 	 * Urlencode a string.
+	 *
 	 * @param value The string to be encoded
-	 * @return      The urlencoded string.
+	 * @return The urlencoded string.
 	 */
 	public static String urlEncode(String value) {
 		return URLEncoder.encode(value, StandardCharsets.UTF_8);
@@ -43,9 +42,10 @@ public class Utils {
 	/**
 	 * Performs a GET request with given headers and returns the response body
 	 * as a String.
+	 *
 	 * @param uri     The encoded URI
 	 * @param headers (Optional) Variable amount of headers. Number of arguments must be a multiple of two.
-	 * @return        The response as a String.
+	 * @return The response as a String.
 	 */
 	public static String get(String uri, String... headers) {
 		HttpRequest.Builder httpRequestBuilder = HttpRequest.newBuilder()
@@ -68,45 +68,29 @@ public class Utils {
 		return response.body();
 	}
 
-	public static String getWithRetryOn202(int retries, long timeoutMillis, String uri, String... headers) {
-		if (retries < 0) retries = 0;
-
-		String result = null;
-		for (int tryNumber = 0; tryNumber < retries + 1; tryNumber++) {
-			HttpRequest.Builder httpRequestBuilder = HttpRequest.newBuilder()
-					.GET()
-					.uri(URI.create(uri));
-			if (headers != null && headers.length > 0 && headers.length % 2 == 0) {
-				httpRequestBuilder.headers(headers);
-			}
-			HttpRequest request = httpRequestBuilder.build();
-			HttpClient client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build();
-			HttpResponse<String> response;
-			try {
-				response = client.send(request, HttpResponse.BodyHandlers.ofString());
-			} catch (IOException | InterruptedException e) {
-				throw new RuntimeException(e);
-			}
-			if (response.statusCode() == 202) {
-				try {
-					Thread.sleep(timeoutMillis);
-				} catch (InterruptedException e) {
-					throw new RuntimeException(e);
-				}
-			} else if (response.statusCode() == 200) {
-				result = response.body();
-				break;
-			} else {
-				throw new RsdResponseException(response.statusCode(), "Error fetching data from endpoint " + uri + " with response: " + response.body());
-			}
+	public static HttpResponse<String> getAsHttpResponse(String uri, String... headers) {
+		HttpRequest.Builder httpRequestBuilder = HttpRequest.newBuilder()
+				.GET()
+				.uri(URI.create(uri));
+		if (headers != null && headers.length > 0 && headers.length % 2 == 0) {
+			httpRequestBuilder.headers(headers);
 		}
-		return result;
+		HttpRequest request = httpRequestBuilder.build();
+		HttpClient client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build();
+		HttpResponse<String> response;
+		try {
+			response = client.send(request, HttpResponse.BodyHandlers.ofString());
+			return response;
+		} catch (IOException | InterruptedException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
 	 * Retrieve data from PostgREST as an admin user and retrieve the response body.
-	 * @param uri  The URI
-	 * @return     Returns the content of the HTTP response
+	 *
+	 * @param uri The URI
+	 * @return Returns the content of the HTTP response
 	 */
 	public static String getAsAdmin(String uri) {
 		String jwtString = adminJwt();
@@ -132,10 +116,11 @@ public class Utils {
 	/**
 	 * Performs a POST request with given headers and returns the response body
 	 * as a String.
-	 * @param uri           The URI
-	 * @param body          the request body as a string
-	 * @param extraHeaders  Additional headers (amount must be multiple of two)
-	 * @return              The response body as a string
+	 *
+	 * @param uri          The URI
+	 * @param body         the request body as a string
+	 * @param extraHeaders Additional headers (amount must be multiple of two)
+	 * @return The response body as a string
 	 */
 	public static String post(String uri, String body, String... extraHeaders) {
 		HttpRequest.Builder httpRequestBuilder = HttpRequest.newBuilder()
@@ -160,10 +145,11 @@ public class Utils {
 
 	/**
 	 * Post data to the database.
-	 * @param uri           The URI
-	 * @param json          JSON as a string containing the values
-	 * @param extraHeaders  Additional headers (amount must be multiple of two)
-	 * @return              ???
+	 *
+	 * @param uri          The URI
+	 * @param json         JSON as a string containing the values
+	 * @param extraHeaders Additional headers (amount must be multiple of two)
+	 * @return ???
 	 */
 	public static String postAsAdmin(String uri, String json, String... extraHeaders) {
 		String jwtString = adminJwt();
@@ -187,6 +173,27 @@ public class Utils {
 		return response.body();
 	}
 
+	public static String patchAsAdmin(String uri, String json) {
+		String jwtString = adminJwt();
+		HttpRequest request = HttpRequest.newBuilder()
+				.method("PATCH", HttpRequest.BodyPublishers.ofString(json))
+				.uri(URI.create(uri))
+				.header("Content-Type", "application/json")
+				.header("Authorization", "Bearer " + jwtString)
+				.build();
+		HttpClient client = HttpClient.newHttpClient();
+		HttpResponse<String> response;
+		try {
+			response = client.send(request, HttpResponse.BodyHandlers.ofString());
+		} catch (IOException | InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+		if (response.statusCode() >= 300) {
+			throw new RuntimeException("Error fetching data from endpoint " + uri + " with response: " + response.body());
+		}
+		return response.body();
+	}
+
 	private static String adminJwt() {
 		String signingSecret = Config.jwtSigningSecret();
 		Algorithm signingAlgorithm = Algorithm.HMAC256(signingSecret);
@@ -195,17 +202,6 @@ public class Utils {
 				.withExpiresAt(new Date(System.currentTimeMillis() + Config.jwtExpirationTime()))
 				.sign(signingAlgorithm);
 		return jwtString;
-	}
-
-	/**
-	 * Collapses a zoned datetime to a week timestamp.
-	 * The week timestamp is the first Sunday at 00:00:00.000 UTC before the submitted date.
-	 * @param date The date to be converted
-	 * @return     Week timestamp in UTC
-	 */
-	public static ZonedDateTime collapseToWeekUTC(ZonedDateTime date) {
-		ZonedDateTime utcDate = date.withZoneSameInstant(ZoneOffset.UTC);
-		return utcDate.minusDays(utcDate.getDayOfWeek().getValue()).withHour(0).withMinute(0).withSecond(0).withNano(0);
 	}
 
 	public static String stringOrNull(JsonElement e) {

@@ -1,13 +1,17 @@
-// SPDX-FileCopyrightText: 2022 Dusan Mijatovic (dv4all)
+// SPDX-FileCopyrightText: 2022 - 2023 Dusan Mijatovic (dv4all)
+// SPDX-FileCopyrightText: 2022 - 2023 dv4all
 // SPDX-FileCopyrightText: 2022 Ewan Cahen (Netherlands eScience Center) <e.cahen@esciencecenter.nl>
 // SPDX-FileCopyrightText: 2022 Netherlands eScience Center
-// SPDX-FileCopyrightText: 2022 dv4all
+// SPDX-FileCopyrightText: 2023 Dusan Mijatovic (dv4all) (dv4all)
 //
 // SPDX-License-Identifier: Apache-2.0
 
 import Code from '@mui/icons-material/Code'
-import {ProgramingLanguages} from '../../types/SoftwareTypes'
-import logger from '../../utils/logger'
+
+import {sortOnNumProp} from '~/utils/sortFn'
+import logger from '~/utils/logger'
+import {CodePlatform, ProgramingLanguages} from '~/types/SoftwareTypes'
+import AboutLanguageItem from './AboutLanguageItem'
 
 /**
  * Calculate programming languages percentages.
@@ -51,14 +55,31 @@ function calculateStats(languages: ProgramingLanguages) {
     return stats
   } catch (e:any) {
     logger(`AboutLanguages: Failed to calculateStats. Error: ${e.message}`, 'error')
+    return []
   }
 }
 
+export default function AboutLanguages({languages, platform}:
+  { languages: ProgramingLanguages, platform: CodePlatform }) {
 
-export default function AboutLanguages({languages}: {languages: ProgramingLanguages }) {
   // don't render section if no languages
   if (typeof languages == 'undefined' || languages === null) return null
-  const stats = calculateStats(languages)
+
+  let stats = []
+  if (platform === 'gitlab') {
+    // GitLab api stats already in %
+    // we only map and sort by %
+    stats = Object.keys(languages)
+      .map(key => ({
+        language: key,
+        val: languages[key],
+        pct: Math.round(languages[key])
+      }))
+      .sort((a,b)=>sortOnNumProp(a,b,'pct','desc'))
+  } else {
+    stats = calculateStats(languages)
+  }
+
   // don't render if stats failed
   if (typeof stats == 'undefined') return null
 
@@ -69,21 +90,9 @@ export default function AboutLanguages({languages}: {languages: ProgramingLangua
       <span className="text-primary pl-2">Programming language</span>
     </div>
     <ul className="py-1">
-      {/* show only stat selection pct > 0*/}
-      {stats?.map((entry) => {
-        return (
-          <li key={entry.language}>
-            {entry.language} <span className="ml-2">{entry.pct}%</span>
-            <div
-              className="bg-primary"
-              style={{
-                width: `${entry.pct}%`,
-                height: '0.5rem',
-                opacity: 0.5
-              }}>
-            </div>
-          </li>
-        )
+      {/* show only stat selection pct > 0 and exclude other category */}
+      {stats?.map((props) => {
+        return <AboutLanguageItem key={props.language} {...props} />
       })}
     </ul>
     </>
