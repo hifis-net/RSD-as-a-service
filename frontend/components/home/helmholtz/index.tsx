@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2021 - 2022 Dusan Mijatovic (dv4all)
 // SPDX-FileCopyrightText: 2021 - 2022 dv4all
-// SPDX-FileCopyrightText: 2022 Christian Meeßen (GFZ) <christian.meessen@gfz-potsdam.de>
-// SPDX-FileCopyrightText: 2022 Helmholtz Centre Potsdam - GFZ German Research Centre for Geosciences
+// SPDX-FileCopyrightText: 2022 - 2023 Christian Meeßen (GFZ) <christian.meessen@gfz-potsdam.de>
+// SPDX-FileCopyrightText: 2022 - 2023 Helmholtz Centre Potsdam - GFZ German Research Centre for Geosciences
 // SPDX-FileCopyrightText: 2022 Jesús García Gonzalez (Netherlands eScience Center) <j.g.gonzalez@esciencecenter.nl>
 // SPDX-FileCopyrightText: 2022 Marc Hanisch (GFZ) <marc.hanisch@gfz-potsdam.de>
 // SPDX-FileCopyrightText: 2022 Netherlands eScience Center
@@ -31,6 +31,12 @@ import SpotlightSection from './SpotlightSection'
 /*! purgecss end ignore */
 
 const SPOTLIGHTS= [
+  {
+    name: 'matRad',
+    description: 'matRad is a dose calculation and inverse treatment planning toolkit for radiotherapy research and education written in Matlab.',
+    image: 'https://hifis.net/assets/img/spotlights/matRad/matRad_prostate_carbon.png',
+    link: '/software/matrad'
+  },
   {
     name: 'CrystFEL',
     description: 'CrystFEL is a suite of programs to process data from "serial crystallography" experiments.',
