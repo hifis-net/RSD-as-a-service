@@ -1,7 +1,7 @@
+-- SPDX-FileCopyrightText: 2022 - 2023 Ewan Cahen (Netherlands eScience Center) <e.cahen@esciencecenter.nl>
+-- SPDX-FileCopyrightText: 2022 - 2023 Netherlands eScience Center
 -- SPDX-FileCopyrightText: 2022 Dusan Mijatovic (dv4all)
 -- SPDX-FileCopyrightText: 2022 Dusan Mijatovic (dv4all) (dv4all)
--- SPDX-FileCopyrightText: 2022 Ewan Cahen (Netherlands eScience Center) <e.cahen@esciencecenter.nl>
--- SPDX-FileCopyrightText: 2022 Netherlands eScience Center
 -- SPDX-FileCopyrightText: 2022 dv4all
 --
 -- SPDX-License-Identifier: Apache-2.0
@@ -96,21 +96,23 @@ $$;
 CREATE TRIGGER sanitise_update_organisation BEFORE UPDATE ON organisation FOR EACH ROW EXECUTE PROCEDURE sanitise_update_organisation();
 
 -- including the parent itself
-CREATE OR REPLACE FUNCTION list_child_organisations(parent_id UUID) RETURNS TABLE (organisation_id UUID) STABLE LANGUAGE plpgsql AS
+CREATE FUNCTION list_child_organisations(parent_id UUID) RETURNS TABLE (organisation_id UUID, organisation_name VARCHAR) STABLE LANGUAGE plpgsql AS
 $$
 DECLARE child_organisations UUID[];
-DECLARE search_child_organisations UUID[];
+DECLARE child_names VARCHAR[];
+DECLARE search_child_organisations UUID[]; -- used as a stack
 DECLARE current_organisation UUID;
 BEGIN
--- breadth-first search to find all child organisations
+-- depth-first search to find all child organisations
 	search_child_organisations = search_child_organisations || parent_id;
 	WHILE CARDINALITY(search_child_organisations) > 0 LOOP
 		current_organisation = search_child_organisations[CARDINALITY(search_child_organisations)];
 		child_organisations = child_organisations || current_organisation;
+		child_names = child_names || (SELECT name FROM organisation WHERE id = current_organisation);
 		search_child_organisations = trim_array(search_child_organisations, 1);
 		search_child_organisations = search_child_organisations || (SELECT ARRAY(SELECT organisation.id FROM organisation WHERE parent = current_organisation));
 	END LOOP;
-	RETURN QUERY SELECT UNNEST(child_organisations);
+	RETURN QUERY SELECT * FROM UNNEST(child_organisations, child_names);
 END
 $$;
 
@@ -147,7 +149,8 @@ $$;
 CREATE FUNCTION organisation_route(
 	IN id UUID,
 	OUT organisation UUID,
-	OUT rsd_path VARCHAR
+	OUT rsd_path VARCHAR,
+	OUT parent_names VARCHAR
 )
 STABLE LANGUAGE plpgsql AS
 $$
@@ -155,20 +158,24 @@ DECLARE
 	current_org UUID := id;
 	route VARCHAR := '';
 	slug VARCHAR;
+	names VARCHAR :=  '';
+	current_name VARCHAR;
 BEGIN
 	WHILE current_org IS NOT NULL LOOP
 		SELECT
 			organisation.slug,
-			organisation.parent
+			organisation.parent,
+			organisation.name
 		FROM
 			organisation
 		WHERE
 			organisation.id = current_org
-		INTO slug, current_org;
+		INTO slug, current_org, current_name;
 --	combine paths in reverse order
-		route := CONCAT(slug,'/',route);
+		route := CONCAT(slug, '/', route);
+		names := CONCAT(current_name, ' -> ', names);
 	END LOOP;
-	SELECT id, route INTO organisation,rsd_path;
+	SELECT id, route, LEFT(names, -4) INTO organisation, rsd_path, parent_names;
 	RETURN;
 END
 $$;

@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2021 - 2022 Netherlands eScience Center
+# SPDX-FileCopyrightText: 2023 Helmholtz Centre Potsdam - GFZ German Research Centre for Geosciences
 #
 # SPDX-License-Identifier: CC0-1.0
 #
@@ -6,37 +7,12 @@
 # Visit https://bit.ly/cffinit to generate yours today!
 
 cff-version: 1.2.0
-title: Research Software Directory (as a service)
+title: Helmholtz Research Software Directory
 message: >-
   Please cite this software using the information
   provided in this file.
 type: software
 authors:
-  - given-names: Ewan Jacov
-    family-names: Cahen
-    affiliation: Netherlands eScience Center
-    email: e.cahen@esciencecenter.nl
-  - given-names: Dusan
-    family-names: Mijatovic
-    email: d.mijatovic@esciencecenter.nl
-    affiliation: Netherlands eScience Center
-    orcid: 'https://orcid.org/0000-0002-1898-4461'
-  - orcid: 'https://orcid.org/0000-0002-2170-3253'
-    affiliation: Netherlands eScience Center
-    given-names: Jesus
-    family-names: Garcia Gonzalez
-    email: j.g.gonzalez@esciencecenter.nl
-  - given-names: Jason
-    family-names: Maassen
-    email: j.maassen@esciencecenter.nl
-    affiliation: Netherlands eScience Center
-    orcid: 'https://orcid.org/0000-0002-8172-4865'
-  - given-names: Maaike
-    name-particle: de
-    family-names: Jong
-    email: m.dejong@esciencecenter.nl
-    affiliation: Netherlands eScience Center
-    orcid: 'https://orcid.org/0000-0003-4803-7411'
   - given-names: Christian
     family-names: Meeßen
     email: christian.meessen@gfz-potsdam.de
@@ -56,24 +32,31 @@ authors:
     email: norman.ziegner@ufz.de
     affiliation: Helmholtz Centre for Environmental Research GmbH - UFZ
     orcid: 'https://orcid.org/0000-0001-7579-216X'
-identifiers:
-  - type: doi
-    value: 10.5281/zenodo.6379973
-    description: The archived releases for the sourcecode
 repository-code: >-
-  https://github.com/research-software-directory/RSD-as-a-service
-url: 'https://research-software-directory.org'
+  https://github.com/hifis-net/RSD-as-a-service
+url: 'https://helmholtz.software'
 abstract: >-
-  The Research Software Directory (as a service) is a
-  content management system that is tailored to
-  research software. Its main goal is to increase the
-  visibility, impact and reuse of research software.
+  The Helmholtz Research Software Directory is a
+  content management system for research software.
+  The goal of the Helmholtz RSD is to increase the
+  visibility, impact and reuse of research software
+  developed within the Helmholtz Association.
+references:
+  - type: software
+    authors:
+      - name: "Netherlands eScience Center"
+    title: "Research Software Directory (as a service)"
+    doi: 10.5281/zenodo.6379973
+    version: v1.16.0
+    repository-code: https://github.com/research-software-directory/RSD-as-a-service
 keywords:
   - Research Software
   - Software Citation
   - FAIR Sofware
   - Software Impact
   - Software Reuse
-license: Apache-2.0
-version: v1.15.0
-date-released: '2023-01-20'
+license:
+  - EUPL-1.2
+  - Apache-2.0
+version: hifis-1.5.0
+date-released: '2023-02-14'

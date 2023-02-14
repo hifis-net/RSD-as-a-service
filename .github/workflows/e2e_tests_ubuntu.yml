@@ -3,30 +3,15 @@
 # SPDX-FileCopyrightText: 2022 Ewan Cahen (Netherlands eScience Center) <e.cahen@esciencecenter.nl>
 # SPDX-FileCopyrightText: 2022 Netherlands eScience Center
 # SPDX-FileCopyrightText: 2022 dv4all
+# SPDX-FileCopyrightText: 2023 Christian Meeßen (GFZ) <christian.meessen@gfz-potsdam.de>
+# SPDX-FileCopyrightText: 2023 Helmholtz Centre Potsdam - GFZ German Research Centre for Geosciences
 #
 # SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: EUPL-1.2
 
 name: e2e tests ubuntu
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - "authentication/**"
-      - "backend-postgrest/**"
-      - "database/**"
-      - "e2e/**"
-      - "frontend/**"
-      - "nginx/**"
-  pull_request:
-    paths:
-      - "authentication/**"
-      - "backend-postgrest/**"
-      - "database/**"
-      - "e2e/**"
-      - "frontend/**"
-      - "nginx/**"
 
 jobs:
   ubuntu-v22:

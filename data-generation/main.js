@@ -1,6 +1,6 @@
+// SPDX-FileCopyrightText: 2022 - 2023 Ewan Cahen (Netherlands eScience Center) <e.cahen@esciencecenter.nl>
+// SPDX-FileCopyrightText: 2022 - 2023 Netherlands eScience Center
 // SPDX-FileCopyrightText: 2022 Dusan Mijatovic (dv4all)
-// SPDX-FileCopyrightText: 2022 Ewan Cahen (Netherlands eScience Center) <e.cahen@esciencecenter.nl>
-// SPDX-FileCopyrightText: 2022 Netherlands eScience Center
 // SPDX-FileCopyrightText: 2022 dv4all
 //
 // SPDX-License-Identifier: Apache-2.0
@@ -104,11 +104,11 @@ async function generateSofware(amount=50) {
 		'10.5281/zenodo.1051033',
 		'10.5281/zenodo.1051039',
 		'10.5281/zenodo.1051130',
-		'10.5281/zenodo.1064391',
 		'10.5281/zenodo.1083950',
 		'10.5281/zenodo.1145886',
 		'10.5281/zenodo.1149010',
 		'10.5281/zenodo.1162057',
+		'10.5281/zenodo.1404735',
 		'10.5281/zenodo.1435860',
 		'10.5281/zenodo.1436372',
 		'10.5281/zenodo.1436464',
@@ -127,7 +127,7 @@ async function generateSofware(amount=50) {
 		'10.5281/zenodo.597984',
 		'10.5281/zenodo.598013',
 		'10.5281/zenodo.598204',
-		'10.5281/zenodo.60031',
+		'10.5281/zenodo.6379973',
 		'10.5281/zenodo.6532349',
 		'10.5281/zenodo.832894',
 		'10.5281/zenodo.909307',
@@ -491,7 +491,7 @@ function generateMetaPages() {
 	const result = [];
 
 	const titles = ['Terms of Service', 'Privacy Statement'];
-	const slugs = ['tos', 'privacy'];
+	const slugs = ['terms-of-service', 'privacy-statement'];
 	for (let index = 0; index < titles.length; index++) {
 		result.push({
 			title: titles[index],

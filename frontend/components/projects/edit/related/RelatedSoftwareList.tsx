@@ -1,10 +1,11 @@
-// SPDX-FileCopyrightText: 2022 Dusan Mijatovic (dv4all)
+// SPDX-FileCopyrightText: 2022 - 2023 Dusan Mijatovic (dv4all)
+// SPDX-FileCopyrightText: 2022 - 2023 dv4all
 // SPDX-FileCopyrightText: 2022 Dusan Mijatovic (dv4all) (dv4all)
-// SPDX-FileCopyrightText: 2022 dv4all
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import {Alert, AlertTitle} from '@mui/material'
+import Alert from '@mui/material/Alert'
+import AlertTitle from '@mui/material/AlertTitle'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
@@ -105,7 +106,7 @@ export function RelatedSoftwareItem({software,onDelete}:SoftwareItemProps) {
         </IconButton>
       }
       sx={{
-        height:itemHeight,
+        minHeight:itemHeight,
         // this makes space for buttons
         paddingRight:'5rem',
         '&:hover': {
