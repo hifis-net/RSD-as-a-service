@@ -1,8 +1,10 @@
--- SPDX-FileCopyrightText: 2021 - 2022 Dusan Mijatovic (dv4all)
+-- SPDX-FileCopyrightText: 2021 - 2023 Dusan Mijatovic (dv4all)
 -- SPDX-FileCopyrightText: 2021 - 2023 dv4all
 -- SPDX-FileCopyrightText: 2022 - 2023 Dusan Mijatovic (dv4all) (dv4all)
--- SPDX-FileCopyrightText: 2022 Ewan Cahen (Netherlands eScience Center) <e.cahen@esciencecenter.nl>
--- SPDX-FileCopyrightText: 2022 Netherlands eScience Center
+-- SPDX-FileCopyrightText: 2022 - 2023 Ewan Cahen (Netherlands eScience Center) <e.cahen@esciencecenter.nl>
+-- SPDX-FileCopyrightText: 2022 - 2023 Netherlands eScience Center
+-- SPDX-FileCopyrightText: 2023 Christian Meeßen (GFZ) <christian.meessen@gfz-potsdam.de>
+-- SPDX-FileCopyrightText: 2023 Helmholtz Centre Potsdam - GFZ German Research Centre for Geosciences
 --
 -- SPDX-License-Identifier: Apache-2.0
 
@@ -437,6 +439,30 @@ BEGIN
 END
 $$;
 
+-- Software releases count by organisation
+CREATE FUNCTION release_cnt_by_organisation() RETURNS TABLE (
+	id UUID,
+	slug VARCHAR,
+	release_cnt BIGINT
+) LANGUAGE plpgsql STABLE AS
+$$
+BEGIN RETURN QUERY
+	SELECT
+		organisations_of_software.id,
+		organisations_of_software.slug,
+		COUNT(*) AS release_cnt
+	FROM
+		"release"
+	INNER JOIN
+		release_version ON release_version.release_id="release".software
+	INNER JOIN
+		organisations_of_software("release".software) ON "release".software = organisations_of_software.software
+	GROUP BY
+		organisations_of_software.id, organisations_of_software.slug
+	;
+END
+$$;
+
 -- Organisations overview
 -- we pass public param to count functions to get public/private count
 -- public count is default,
@@ -451,10 +477,12 @@ CREATE FUNCTION organisations_overview(public BOOLEAN DEFAULT TRUE) RETURNS TABL
 	website VARCHAR,
 	is_tenant BOOLEAN,
 	rsd_path VARCHAR,
+	parent_names VARCHAR,
 	logo_id VARCHAR,
 	software_cnt BIGINT,
 	project_cnt BIGINT,
 	children_cnt BIGINT,
+	release_cnt BIGINT,
 	score BIGINT
 ) LANGUAGE plpgsql STABLE AS
 $$
@@ -470,10 +498,12 @@ BEGIN
 		organisation.website,
 		organisation.is_tenant,
 		organisation_route.rsd_path,
+		organisation_route.parent_names,
 		organisation.logo_id,
 		software_count_by_organisation.software_cnt,
 		project_count_by_organisation.project_cnt,
 		children_count_by_organisation.children_cnt,
+		release_cnt_by_organisation.release_cnt,
 		(
 			COALESCE(software_count_by_organisation.software_cnt,0) +
 			COALESCE(project_count_by_organisation.project_cnt,0)
@@ -488,6 +518,8 @@ BEGIN
 		project_count_by_organisation(public) ON project_count_by_organisation.organisation = organisation.id
 	LEFT JOIN
 		children_count_by_organisation() ON children_count_by_organisation.parent = organisation.id
+	LEFT JOIN
+		release_cnt_by_organisation() ON release_cnt_by_organisation.id = organisation.id
 	;
 END
 $$;
@@ -1475,5 +1507,65 @@ BEGIN RETURN QUERY
 		unique_team_members()
 	ORDER BY
 		display_name ASC;
+END
+$$;
+
+-- Software releases
+-- release info is scraped from Zenodo
+-- one software belongs to multiple organisations
+CREATE FUNCTION software_release() RETURNS TABLE (
+	software_id UUID,
+	software_slug VARCHAR,
+	software_name VARCHAR,
+	release_doi CITEXT,
+	release_tag VARCHAR,
+	release_date DATE,
+	release_year SMALLINT,
+	release_authors VARCHAR,
+	organisation_slug VARCHAR[]
+) LANGUAGE plpgsql STABLE AS
+$$
+BEGIN RETURN QUERY
+	SELECT
+		software.id AS software_id,
+		software.slug AS software_slug,
+		software.brand_name AS software_name,
+		mention.doi AS release_doi,
+		mention.version AS release_tag,
+		mention.publication_date AS release_date,
+		mention.publication_year AS release_year,
+		mention.authors AS release_authors,
+		ARRAY_AGG(organisations_of_software.slug) AS organisation_slug
+	FROM
+		release_version
+	INNER JOIN
+		"release" ON "release".software = release_version.release_id
+	INNER JOIN
+		software ON software.id = "release".software
+	INNER JOIN
+		mention ON mention.id = release_version.mention_id
+	LEFT JOIN
+		organisations_of_software(software.id) ON software.id = organisations_of_software.software
+	GROUP BY
+		software_id, release_doi, release_tag, release_date, release_year, release_authors
+	;
+END
+$$;
+
+
+-- Check whether user agreed on Terms of Service and read the Privacy Statement
+CREATE FUNCTION user_agreements_stored(account_id UUID) RETURNS BOOLEAN LANGUAGE plpgsql STABLE AS
+$$
+BEGIN
+	RETURN (
+		SELECT (
+			account.agree_terms = TRUE AND
+			account.notice_privacy_statement = TRUE
+		)
+		FROM
+			account
+		WHERE
+			account.id = account_id
+	);
 END
 $$;
