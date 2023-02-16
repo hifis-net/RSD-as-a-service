@@ -48,16 +48,6 @@ export default function Home() {
   const {session} = useAuth()
   const status = session?.status || 'loading'
 
-  let getStartedHref:string
-  if (status !== 'authenticated') {
-    getStartedHref = providers[0]?.redirectUrl ?? ''
-    if (typeof document !== 'undefined' ) {
-      document.cookie = `rsd_pathname=${location.href}software/add;path=/auth;SameSite=None;Secure`
-    }
-  } else {
-    getStartedHref = '/software/add'
-  }
-
   useEffect(() => {
     // Initialize AOS library
     AOS.init()
@@ -92,15 +82,17 @@ export default function Home() {
     event.target.style.backgroundImage = 'url("/images/pexels-olena-bohovyk-3646172.jpg")'
   }
 
-  // Only required if we have the "Add your software button"
-  const handleClickOpen = () => {
-    const loginButton = document.querySelector('.rsd-login-button')
-    if (loginButton) {
-      const evt = new MouseEvent('click', {
-        bubbles: true
-      })
-      loginButton.dispatchEvent(evt)
+  const handleClickAddSoftware = () => {
+    let getStartedHref:string
+    if (status !== 'authenticated') {
+      getStartedHref = providers[0]?.redirectUrl ?? ''
+      if (typeof document !== 'undefined' ) {
+        document.cookie = `rsd_pathname=${location.href}software/add;path=/auth;SameSite=None;Secure`
+      }
+    } else {
+      getStartedHref = '/software/add'
     }
+    window.location.href = getStartedHref
   }
 
   const backgroundTransitionStyle = {
@@ -149,11 +141,11 @@ export default function Home() {
                 The Helmholtz RSD is now <span className="hgf-text-highlight">ready to use for all Helmholtz users</span>.
                 If you have an account at a Helmholtz institution, login and promote your Research Software now:
               </div>
-              <Link href={getStartedHref} passHref>
+              <a onClick={handleClickAddSoftware}>
                 <div className="mx-auto mt-10 w-[250px] bg-[#05e5ba] hover:bg-primary text-secondary text-center font-medium text-2xl py-4 px-6 rounded-full">
                 Add your software
                 </div>
-              </Link>
+              </a>
             </div>
           </div>
         </div>
