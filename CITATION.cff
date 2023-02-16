@@ -32,6 +32,10 @@ authors:
     email: norman.ziegner@ufz.de
     affiliation: Helmholtz Centre for Environmental Research GmbH - UFZ
     orcid: 'https://orcid.org/0000-0001-7579-216X'
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.7638662
+    description: The DOI for all versions of the Helmholtz RSD
 repository-code: >-
   https://github.com/hifis-net/RSD-as-a-service
 url: 'https://helmholtz.software'

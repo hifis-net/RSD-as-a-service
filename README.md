@@ -15,8 +15,8 @@ SPDX-License-Identifier: CC-BY-4.0
 
 ![image](https://user-images.githubusercontent.com/4195550/136156498-736f915f-7623-43d2-8678-f30b06563a38.png)
 
-[![DOI](https://zenodo.org/badge/413814951.svg)](https://zenodo.org/badge/latestdoi/413814951)
-[![GitHub license](https://img.shields.io/badge/license-Apache--2.0%20-blue.svg)](https://github.com/research-software-directory/RSD-as-a-service/blob/main/LICENSE)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7638663.svg)](https://doi.org/10.5281/zenodo.7638663)
+[![GitHub license](https://img.shields.io/badge/License-EUPL--1.2%20-blue.svg)](./LICENSES/EUPL-1.2.txt)
 [![fair-software.eu](https://img.shields.io/badge/fair--software.eu-%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8B%20%20%E2%97%8F%20%20%E2%97%8B-orange)](https://fair-software.eu)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/6336/badge)](https://bestpractices.coreinfrastructure.org/projects/6336)
 ![All tests](https://github.com/research-software-directory/RSD-as-a-service/actions/workflows/tests_main.yml/badge.svg)
@@ -92,7 +92,8 @@ More information about building and data migration can be found in [Getting star
 
 The content of this repository is licensed under several licenses. We follow the [REUSE specification](https://reuse.software/) to indicate which license applies to the files specifically. Here are some general hints:
 
-- Source code is licensed under `Apache-2.0`
+- Helmholtz specific source code is licensed under `EUPL-1.2`
+- Source code coming from upstream is licensed under `Apache-2.0`
 - Documentation and most images are licensed under `CC BY-4.0`
 - Some files with trivial content, e.g. configuration files, are licensed under `CC0-1.0`
 
