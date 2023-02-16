@@ -28,6 +28,8 @@ import Image from 'next/image'
 import ParticipatingOrganisations from '~/components/home/helmholtz/ParticipatingOrganisations'
 import ResearchFieldCollection from './ResearchFieldCollection'
 import SpotlightSection from './SpotlightSection'
+import useLoginProviders from '~/auth/api/useLoginProviders'
+import {useAuth} from '~/auth'
 /*! purgecss end ignore */
 
 const SPOTLIGHTS= [
@@ -36,54 +38,25 @@ const SPOTLIGHTS= [
     description: 'matRad is a dose calculation and inverse treatment planning toolkit for radiotherapy research and education written in Matlab.',
     image: 'https://hifis.net/assets/img/spotlights/matRad/matRad_prostate_carbon.png',
     link: '/software/matrad'
-  },
-  {
-    name: 'CrystFEL',
-    description: 'CrystFEL is a suite of programs to process data from "serial crystallography" experiments.',
-    image: '/images/crystfel.png',
-    link: '/software/crystfel'
-  },
-  {
-    name: 'MassBank',
-    description: 'MassBank is an open source mass spectral library for the identification of small chemical molecules of metabolomics, exposomics and environmental relevance.',
-    image: 'https://hifis.net/assets/img/spotlights/massbank/Atrazine_Mass_Spectrum.png',
-    link: '/software/massbank'
-  },
-  {
-    name: 'FishInspector',
-    description: 'The software FishInspector provides automatic feature detections in images of zebrafish embryos (body size, eye size, pigmentation). It is Matlab-based and provided as a Windows executable (no matlab installation needed).',
-    image: 'https://hifis.net/assets/img/spotlights/fishinspector/FishInspector.jpg',
-    link: '/software'
-  },
-  {
-    name: 'Golem',
-    description: 'Golem is a modelling platform for thermal-hydraulic-mechanical and non-reactive chemical processes in fractured and faulted porous media.',
-    image: 'https://hifis.net/assets/img/spotlights/golem/golem_preview.png',
-    link: '/software/golem-a-moose-based-application'
-  },
-  {
-    name: 'Lynx',
-    description: 'LYNX (Lithosphere dYnamics Numerical toolboX) is a novel numerical simulator for modelling thermo-poromechanical coupled processes driving the deformation dynamics of the lithosphere.',
-    image: 'https://hifis.net/assets/img/spotlights/lynx/lynx_logo.png',
-    link: '/software/lynx-modelling-lithosperic-dynamics'
-  },
-  {
-    name: 'MeshIt',
-    description: 'The tool MeshIT generates quality tetrahedral meshes based on structural geological information. It has been developed at the GFZ Potsdam and some extensions were later added by PERFACCT. All procedures are fully automatized and require at least scattered data points as input.',
-    image: 'https://hifis.net/assets/img/spotlights/meshit/meshit_logo.png',
-    link: '/software/meshit'
-  },
-  {
-    name: 'Palladio',
-    description: 'Palladio is a software architecture simulation approach which analyses software at the model level for performance bottlenecks, scalability issues, reliability threats, and allows for subsequent optimisation.',
-    image: 'https://hifis.net/assets/img/spotlights/palladio/palladio_preview.png',
-    link: '/software/palladio'
   }
 ]
 
 export default function Home() {
   const [organisations, setOrganisations] = useState<OrganisationForOverview[]>([])
   const simplebarRef = useRef()
+  const providers = useLoginProviders()
+  const {session} = useAuth()
+  const status = session?.status || 'loading'
+
+  let getStartedHref:string
+  if (status !== 'authenticated') {
+    getStartedHref = providers[0]?.redirectUrl ?? ''
+    if (typeof document !== 'undefined' ) {
+      document.cookie = `rsd_pathname=${location.href}software/add;path=/auth;SameSite=None;Secure`
+    }
+  } else {
+    getStartedHref = '/software/add'
+  }
 
   useEffect(() => {
     // Initialize AOS library
@@ -120,15 +93,15 @@ export default function Home() {
   }
 
   // Only required if we have the "Add your software button"
-  // const handleClickOpen = () => {
-  //   const loginButton = document.querySelector('.rsd-login-button')
-  //   if (loginButton) {
-  //     const evt = new MouseEvent('click', {
-  //       bubbles: true
-  //     })
-  //     loginButton.dispatchEvent(evt)
-  //   }
-  // }
+  const handleClickOpen = () => {
+    const loginButton = document.querySelector('.rsd-login-button')
+    if (loginButton) {
+      const evt = new MouseEvent('click', {
+        bubbles: true
+      })
+      loginButton.dispatchEvent(evt)
+    }
+  }
 
   const backgroundTransitionStyle = {
     'transition': 'background 0.3s ease 0.1s',
@@ -144,11 +117,6 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row flex-wrap container mx-auto px-6 md:px-10 xl:px-0 pt-16 pb-12 max-w-screen-xl text-white">
             <div className="min-w-min flex flex-col">
               <LogoHelmholtz width="220" />
-              {/* <a onClick={handleClickOpen}>
-              <div className="w-[250px] bg-[#05e5ba] hover:bg-primary text-secondary hover:text-white text-center font-medium text-2xl py-4 px-6 rounded-sm">
-              Add your software
-              </div>
-              </a> */}
             </div>
             <div className="my-auto pt-4 md:pt-0 ml-auto">
               <h1 className="text-4xl md:text-5xl lg:text-6xl md:max-w-md lg:max-w-xl">Promote and Discover Research Software</h1>
@@ -160,6 +128,32 @@ export default function Home() {
                   </div>
                 </Link>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Announcement */}
+        <div className="container mx-auto p-6 md:p-10 xl:py-10 max-w-screen-xl text-secondary">
+          <h2 className="text-5xl mb-4">Add your Research Software</h2>
+          <div className='grid grid-cols-1 lg:grid-cols-2 lg:gap-20'>
+            <div className="md:block overflow-clip relative h-full">
+              <Image
+                fill
+                className="object-cover"
+                alt="Someone typing on a laptop"
+                src="/images/pexels-isaque-pereira-394377.jpg"
+              />
+            </div>
+            <div>
+              <div className='text-2xl mt-2'>
+                The Helmholtz RSD is now <span className="hgf-text-highlight">ready to use for all Helmholtz users</span>.
+                If you have an account at a Helmholtz institution, login and promote your Research Software now:
+              </div>
+              <Link href={getStartedHref} passHref>
+                <div className="mx-auto mt-10 w-[250px] bg-[#05e5ba] hover:bg-primary text-secondary text-center font-medium text-2xl py-4 px-6 rounded-full">
+                Add your software
+                </div>
+              </Link>
             </div>
           </div>
         </div>
@@ -202,7 +196,6 @@ export default function Home() {
             style={backgroundTransitionStyle}
             onMouseLeave={resetBackgroundImage}>
             <h2 className='text-5xl'>Discover software by research topic</h2>
-            {/* <div className="text-xl my-4">Browse Software by Research Topic</div> */}
             <ResearchFieldCollection />
           </div>
         </div>
@@ -212,13 +205,7 @@ export default function Home() {
           <div className='grid grid-cols-1 lg:grid-cols-2 lg:gap-20'>
             <div className='text-2xl'>
               <h2 id="Upcoming" className='text-5xl pb-10'>Upcoming</h2>
-              <div>We are continuously updating this service. Upcoming features include:</div>
-              <ul className="px-6 my-4 list-disc">
-                <li className="py-4">Login with your Helmholtz Institution&apos;s account</li>
-                <li className="py-4">Add your own software products</li>
-                <li className="py-4">Add related projects, funding and institutions</li>
-                <li className="py-4">Obtain license consultation from HIFIS</li>
-              </ul>
+              <div>Our journey has just begun, and we will be continuously updating this service.</div>
               <div className="py-2">Do you have <span className="hgf-text-highlight">suggestions for improvements or new features</span>?</div>
               <div className="py-2">Please let us know! Send us an <a href="mailto:support@hifis.net?subject=Comments about RSD" className="hgf-text-highlight underline">e-mail</a>, or open an <a href="https://github.com/hifis-net/RSD-as-a-service/issues" target="_blank" className="bg-[#cdeefb] underline" rel="noreferrer">issue</a> in our GitHub repository.</div>
             </div>
