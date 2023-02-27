@@ -32,13 +32,14 @@ import RelatedSoftwareSection from '~/components/software/RelatedSoftwareSection
 import {
   getSoftwareItem,
   getRepostoryInfoForSoftware,
-  getCitationsForSoftware,
   getLicenseForSoftware,
   getContributorMentionCount,
   getRemoteMarkdown,
   ContributorMentionCount,
   getKeywordsForSoftware,
   getRelatedProjectsForSoftware,
+  getReleasesForSoftware,
+  SoftwareVersion,
 } from '~/utils/getSoftware'
 import logger from '~/utils/logger'
 import {getDisplayName} from '~/utils/getDisplayName'
@@ -57,12 +58,11 @@ import {MentionItemProps} from '~/types/Mention'
 import {ParticipatingOrganisationProps} from '~/types/Organisation'
 import {RelatedProject} from '~/types/Project'
 import NoContent from '~/components/layout/NoContent'
-import {SoftwareReleaseInfo} from '~/components/organisation/releases/useSoftwareReleases'
 
 interface SoftwareIndexData extends ScriptProps{
   slug: string
   software: SoftwareItem
-  citationInfo: SoftwareReleaseInfo[]
+  releases: SoftwareVersion[]
   keywords: KeywordForSoftware[]
   licenseInfo: License[]
   repositoryInfo: RepositoryInfo
@@ -81,7 +81,7 @@ export default function SoftwareIndexPage(props:SoftwareIndexData) {
   const [author, setAuthor] = useState('')
   // extract data from props
   const {
-    software, citationInfo, keywords,
+    software, releases, keywords,
     licenseInfo, repositoryInfo, softwareIntroCounts,
     mentions, testimonials, contributors,
     relatedSoftware, relatedProjects, isMaintainer,
@@ -104,7 +104,7 @@ export default function SoftwareIndexPage(props:SoftwareIndexData) {
   if (!software?.brand_name){
     return <NoContent />
   }
-  // console.log('SoftwareIndexPage...citationInfo...', citationInfo)
+  // console.log('SoftwareIndexPage...releases...', releases)
   return (
     <>
       {/* Page Head meta tags */}
@@ -123,11 +123,8 @@ export default function SoftwareIndexPage(props:SoftwareIndexData) {
       <OgMetaTags
         title={software?.brand_name}
         description={software.short_statement ?? ''}
-        url={resolvedUrl}
       />
-      <CanoncialUrl
-        canonicalUrl={resolvedUrl}
-      />
+      <CanoncialUrl />
       <AppHeader />
       {/* Edit page button only when maintainer */}
       <EditPageButton
@@ -148,7 +145,7 @@ export default function SoftwareIndexPage(props:SoftwareIndexData) {
         commit_history_scraped_at={repositoryInfo?.commit_history_scraped_at}
       />
       <CitationSection
-        citationInfo={citationInfo}
+        releases={releases}
         concept_doi={software.concept_doi}
       />
       <AboutSection
@@ -220,8 +217,8 @@ export async function getServerSideProps(context:GetServerSidePropsContext) {
     }
     // fetch all info about software in parallel based on software.id
     const fetchData = [
-      // citationInfo
-      getCitationsForSoftware(software.id,token),
+      // software versions info
+      getReleasesForSoftware(software.id,token),
       // keywords
       getKeywordsForSoftware(software.id,false,token),
       // licenseInfo
@@ -246,7 +243,7 @@ export async function getServerSideProps(context:GetServerSidePropsContext) {
       getParticipatingOrganisations({software:software.id,frontend:false,token})
     ]
     const [
-      citationInfo,
+      releases,
       keywords,
       licenseInfo,
       repositoryInfo,
@@ -264,7 +261,7 @@ export async function getServerSideProps(context:GetServerSidePropsContext) {
     return {
       props: {
         software,
-        citationInfo,
+        releases,
         keywords,
         licenseInfo,
         repositoryInfo,
