@@ -76,11 +76,8 @@ services:
       - ORCID_SCOPES
       - HELMHOLTZAAI_ALLOW_EXTERNAL_USERS
       - AUTH_SURFCONEXT_CLIENT_SECRET
-      - AUTH_SURFCONEXT_TOKEN_URL
       - AUTH_HELMHOLTZAAI_CLIENT_SECRET
-      - AUTH_HELMHOLTZAAI_TOKEN_URL
       - AUTH_ORCID_CLIENT_SECRET
-      - AUTH_ORCID_TOKEN_URL
       - PGRST_JWT_SECRET
     depends_on:
       - database
@@ -101,7 +98,6 @@ services:
       - PGRST_JWT_SECRET
       - RSD_AUTH_URL
       - RSD_AUTH_PROVIDERS
-      - HOTJAR_ID
       - MATOMO_URL
       - MATOMO_ID
       - SURFCONEXT_CLIENT_ID
@@ -183,7 +179,7 @@ services:
   #----------------------------------------------
   data-generation:
     build: ./data-generation
-    image: rsd/generation:1.1.0
+    image: rsd/generation:1.2.0
     environment:
       # it needs to be here to use values from .env file
       - PGRST_JWT_SECRET
@@ -214,7 +210,6 @@ services:
       - PGRST_JWT_SECRET
       - RSD_AUTH_URL
       - RSD_AUTH_PROVIDERS
-      - HOTJAR_ID
       - MATOMO_URL
       - MATOMO_ID
       - SURFCONEXT_CLIENT_ID

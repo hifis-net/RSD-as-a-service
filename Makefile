@@ -1,8 +1,8 @@
+# SPDX-FileCopyrightText: 2022 - 2023 Christian Meeßen (GFZ) <christian.meessen@gfz-potsdam.de>
 # SPDX-FileCopyrightText: 2022 - 2023 Dusan Mijatovic (dv4all)
+# SPDX-FileCopyrightText: 2022 - 2023 Helmholtz Centre Potsdam - GFZ German Research Centre for Geosciences
 # SPDX-FileCopyrightText: 2022 - 2023 dv4all
-# SPDX-FileCopyrightText: 2022 Christian Meeßen (GFZ) <christian.meessen@gfz-potsdam.de>
 # SPDX-FileCopyrightText: 2022 Ewan Cahen (Netherlands eScience Center) <e.cahen@esciencecenter.nl>
-# SPDX-FileCopyrightText: 2022 Helmholtz Centre Potsdam - GFZ German Research Centre for Geosciences
 # SPDX-FileCopyrightText: 2022 Jesús García Gonzalez (Netherlands eScience Center) <j.g.gonzalez@esciencecenter.nl>
 # SPDX-FileCopyrightText: 2022 Netherlands eScience Center
 #
@@ -28,14 +28,12 @@ export DGID
 
 # Main commands
 # ----------------------------------------------------------------
-start:
-	docker-compose down --volumes #cleanup phase
+start: clean
 	docker-compose build # build all services
 	docker-compose up --scale data-generation=1 --scale scrapers=0 -d
 	# open http://localhost to see the application running
 
-install:
-	docker-compose down --volumes #cleanup phase
+install: clean
 	docker-compose build database backend auth scrapers nginx   # exclude frontend and wait for the build to finish
 	docker-compose up --scale scrapers=0 -d
 	cd frontend && yarn install -d
@@ -45,6 +43,8 @@ install:
 	docker-compose up --scale data-generation=1 -d
 	# All dependencies are installed. The data migration is runing in the background. You can now run `make dev' to start the application
 
+clean:
+	docker-compose down --volumes
 
 
 dev:
@@ -84,7 +84,7 @@ dev-frontend: frontend/.env.local
 e2e-tests:
 	docker-compose down --volumes
 	docker-compose build --parallel database backend auth frontend nginx
-	docker-compose up --detach database backend auth frontend nginx
+	docker-compose up --detach --scale scrapers=0
 	sleep 10
 	docker-compose --file e2e/docker-compose.yml build
 	docker-compose --file e2e/docker-compose.yml up
