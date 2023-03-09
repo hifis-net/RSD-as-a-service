@@ -1,14 +1,18 @@
 // SPDX-FileCopyrightText: 2022 Dusan Mijatovic (dv4all)
 // SPDX-FileCopyrightText: 2022 Dusan Mijatovic (dv4all) (dv4all)
 // SPDX-FileCopyrightText: 2022 dv4all
+// SPDX-FileCopyrightText: 2023 Christian Meeßen (GFZ) <christian.meessen@gfz-potsdam.de>
+// SPDX-FileCopyrightText: 2023 Helmholtz Centre Potsdam - GFZ German Research Centre for Geosciences
 //
 // SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: EUPL-1.2
 
 import Link from 'next/link'
 import {OrganisationForOverview} from '../../types/Organisation'
 import {getImageUrl} from '~/utils/editImage'
 import StatCounter from '../layout/StatCounter'
-import VerifiedIcon from '@mui/icons-material/Verified'
+// import VerifiedIcon from '@mui/icons-material/Verified'
+import {HelmholtzIcon} from '../icons/HelmholtzIcon'
 import LogoAvatar from '../layout/LogoAvatar'
 import CardTitle from '../layout/CardTitle'
 
@@ -42,18 +46,19 @@ export default function OrganisationCard(organisation: OrganisationForOverview) 
             {organisation.name}
           </CardTitle>
           {
-            organisation.is_tenant && <span title="Officially registered organisation">
-              <VerifiedIcon
+            // Fix for HIFIS >> START
+            organisation.is_tenant && <span title="Member of the Helmholtz Association">
+              <HelmholtzIcon
                 sx={{
                   position: 'absolute',
-                  right: '0.5rem',
-                  top: '0.5rem',
-                  width: '4rem',
-                  height: '4rem',
-                  opacity: 0.4,
-                  color: 'primary.main'
+                  right: '1rem',
+                  top: '1rem',
+                  width: '3rem',
+                  height: '3rem',
+                  color: 'secondary.main'
                 }}
             /></span>
+            // Fix for HIFIS << END
           }
         </div>
         <div className="flex-1 grid gap-8 lg:grid-cols-[1fr,1fr] p-8 overflow-hidden">
