@@ -69,7 +69,7 @@ export default function Home() {
 
   useEffect(() => {
     async function getData () {
-      const url = '/api/v1/rpc/organisations_overview?parent=is.null&software_cnt=gt.0'
+      const url = '/api/v1/rpc/organisations_overview?parent=is.null&software_cnt=gt.0&is_tenant=eq.true'
       const data = await getOrganisationsList({url})
       setOrganisations(data)
     }
@@ -220,7 +220,7 @@ export default function Home() {
               <h2 className="text-5xl pb-2">Contributions</h2>
               <div className='text-2xl'>We present software contributions by</div>
                 <ParticipatingOrganisations organisations={organisations} sbRef={simplebarRef}/>
-              <div className='text-xl pt-2'>Your organisation is not in the list? We will open the RSD for self service soon. Stay tuned.</div>
+              <div className='text-xl pt-2'>Your organisation is not on the list? <a onClick={handleClickAddSoftware} className="underline">Add your software</a> now.</div>
             </div>
           </div>
         }

@@ -1,5 +1,5 @@
-// SPDX-FileCopyrightText: 2022 Christian Meeßen (GFZ) <christian.meessen@gfz-potsdam.de>
-// SPDX-FileCopyrightText: 2022 Helmholtz Centre Potsdam - GFZ German Research Centre for Geosciences
+// SPDX-FileCopyrightText: 2022 - 2023 Christian Meeßen (GFZ) <christian.meessen@gfz-potsdam.de>
+// SPDX-FileCopyrightText: 2022 - 2023 Helmholtz Centre Potsdam - GFZ German Research Centre for Geosciences
 // SPDX-FileCopyrightText: 2022 Marc Hanisch (GFZ) <marc.hanisch@gfz-potsdam.de>
 //
 // SPDX-License-Identifier: EUPL-1.2
@@ -22,22 +22,25 @@ export default function HorizontalScrollContainer(
     >
       {
         organisations.map(item => {
-          return(
-            <Link
-              key={`link_${item.name}`}
-              href={`/organisations/${item.rsd_path}`}
-              passHref
-              >
-              <img
-                alt={item.name}
-                src={getImageUrl(item.logo_id) ?? undefined}
-                className="p-10 hover:cursor-pointer max-w-none w-auto"
-                style = {{
-                  height: '200px',
-                }}
-              />
-            </Link>
-          )
+          const imageUrl = getImageUrl(item.logo_id)
+          if (imageUrl !== null) {
+            return(
+              <Link
+                key={`link_${item.name}`}
+                href={`/organisations/${item.rsd_path}`}
+                passHref
+                >
+                <img
+                  alt={item.name}
+                  src={imageUrl}
+                  className="p-10 hover:cursor-pointer max-w-none w-auto"
+                  style = {{
+                    height: '200px',
+                  }}
+                />
+              </Link>
+            )
+          }
         })
       }
     </div>
