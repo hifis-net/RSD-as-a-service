@@ -1,4 +1,5 @@
-// SPDX-FileCopyrightText: 2022 Dusan Mijatovic (dv4all)
+// SPDX-FileCopyrightText: 2022 - 2023 Dusan Mijatovic (dv4all)
+// SPDX-FileCopyrightText: 2022 - 2023 dv4all
 // SPDX-FileCopyrightText: 2022 Dusan Mijatovic (dv4all) (dv4all)
 // SPDX-FileCopyrightText: 2022 dv4all
 // SPDX-FileCopyrightText: 2023 Christian Meeßen (GFZ) <christian.meessen@gfz-potsdam.de>
@@ -8,7 +9,6 @@
 // SPDX-License-Identifier: EUPL-1.2
 
 import Link from 'next/link'
-import {OrganisationForOverview} from '../../types/Organisation'
 import {getImageUrl} from '~/utils/editImage'
 import StatCounter from '../layout/StatCounter'
 // import VerifiedIcon from '@mui/icons-material/Verified'
@@ -16,7 +16,16 @@ import {HelmholtzIcon} from '../icons/HelmholtzIcon'
 import LogoAvatar from '../layout/LogoAvatar'
 import CardTitle from '../layout/CardTitle'
 
-export default function OrganisationCard(organisation: OrganisationForOverview) {
+type OrganisationCardProps = {
+  name: string,
+  is_tenant: boolean,
+  rsd_path: string,
+  logo_id: string | null
+  software_cnt: number | null
+  project_cnt: number | null
+}
+
+export default function OrganisationCard(organisation: OrganisationCardProps) {
 
   function getCountAndLabel() {
     const count = organisation.software_cnt ?? 0
