@@ -29,6 +29,7 @@ default:
 # -- TEST stage ---------------------------------------------------------------
 
 frontend-tests:
+  stage: test
   image: node:18-alpine
   tags:
     - docker
@@ -53,6 +54,7 @@ frontend-tests:
 
 scraper-tests:
   # TODO: Caching
+  stage: test
   image: maven:3.8.6-openjdk-18
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
