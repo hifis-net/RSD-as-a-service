@@ -4,10 +4,15 @@
 # SPDX-License-Identifier: EUPL-1.2
 
 stages:
+  - test
   - build
 
 .docker_login_gitlab_registry: &docker_login_gitlab_registry
   - echo "$CI_BUILD_TOKEN" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+
+.apply_helmholtz_design: &apply_helmholtz_design
+  - rm -rf ./frontend/public
+  - mv ./deployment/helmholtz ./frontend/public
 
 .build_and_push_image: &build_and_push_image
   - if test -z "${DOCKERFILE}"; then echo "Variable DOCKERFILE undefined."; exit 1; fi
@@ -20,6 +25,45 @@ default:
   image: docker:23
   services:
     - docker:dind
+
+# -- TEST stage ---------------------------------------------------------------
+
+frontend-tests:
+  stage: test
+  image: node:18-alpine
+  tags:
+    - docker
+    - dind
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - frontend/**/*
+        - deployment/**/*
+  cache:
+    key: frontend-cache
+    paths:
+      - "frontend/node_modules"
+  # TODO: test coverage artifacts https://docs.gitlab.com/ee/ci/yaml/artifacts_reports.html#artifactsreportscoverage_report
+  before_script:
+    - *apply_helmholtz_design
+    - cd frontend
+    - yarn install --frozen-lockfile
+  script:
+    - yarn test:coverage
+    - yarn build
+
+scraper-tests:
+  # TODO: Caching
+  stage: test
+  image: maven:3.8.6-openjdk-18
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  before_script:
+    - cd scrapers
+  script:
+    - mvn test
+
+# -- BUILD stage --------------------------------------------------------------
 
 build-auth:
   stage: build
@@ -82,8 +126,7 @@ build-frontend:
     - if: $CI_COMMIT_TAG
   before_script:
     - *docker_login_gitlab_registry
-    - rm -rf ./frontend/public
-    - mv ./deployment/helmholtz ./frontend/public
+    - *apply_helmholtz_design
   script:
     - *build_and_push_image
 
