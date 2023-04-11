@@ -34,10 +34,10 @@ import {useAuth} from '~/auth'
 
 const SPOTLIGHTS= [
   {
-    name: 'matRad',
-    description: 'matRad is a dose calculation and inverse treatment planning toolkit for radiotherapy research and education written in Matlab.',
-    image: 'https://hifis.net/assets/img/spotlights/matRad/matRad_prostate_carbon.png',
-    link: '/software/matrad'
+    name: 'Kadi4Mat',
+    description: 'Kadi4Mat is an open-source software for managing research data, which supports close cooperation between experimenters, theorists, and simulators, especially in the field of materials science.',
+    image: 'https://hifis.net/assets/img/spotlights/kadi4mat/Homepage.png',
+    link: '/software/kadi4mat'
   }
 ]
 
@@ -124,6 +124,15 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Software spotlights */}
+        <div className="container mx-auto p-6 md:p-10 xl:py-10 max-w-screen-xl text-secondary">
+          <h2 className='text-5xl'>Software Spotlights</h2>
+          <div className='text-2xl mt-2'>The latest outstanding software product developed in Helmholtz.</div>
+          <div className="w-full">
+            <SpotlightSection spotlights={SPOTLIGHTS} />
+          </div>
+        </div>
+
         {/* Announcement */}
         <div className="container mx-auto p-6 md:p-10 xl:py-10 max-w-screen-xl text-secondary">
           <h2 className="text-5xl mb-4">Add your Research Software</h2>
@@ -170,15 +179,6 @@ export default function Home() {
               href="#Upcoming" className='underline'>upcoming features</a>.
           </div>
         </div> */}
-
-        {/* Software spotlights */}
-        <div className="container mx-auto p-6 md:p-10 xl:py-10 max-w-screen-xl text-secondary">
-          <h2 className='text-5xl'>Software Spotlights</h2>
-          <div className='text-2xl mt-2'>The latest outstanding software product developed in Helmholtz.</div>
-          <div className="w-full">
-            <SpotlightSection spotlights={SPOTLIGHTS} />
-          </div>
-        </div>
 
         {/* Software meta repository */}
         <div className="conainer mx-auto my-10 max-w-screen-xl text-white bg-secondary">
