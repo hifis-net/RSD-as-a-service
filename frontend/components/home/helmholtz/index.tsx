@@ -199,7 +199,7 @@ export default function Home() {
               <h2 id="Upcoming" className='text-5xl pb-10'>Upcoming</h2>
               <div>Our journey has just begun, and we will be continuously updating this service.</div>
               <div className="py-2">Do you have <span className="hgf-text-highlight">suggestions for improvements or new features</span>?</div>
-              <div className="py-2">Please let us know! Send us an <a href="mailto:support@hifis.net?subject=Comments about RSD" className="hgf-text-highlight underline">e-mail</a>, or open an <a href="https://github.com/hifis-net/RSD-as-a-service/issues" target="_blank" className="bg-[#cdeefb] underline" rel="noreferrer">issue</a> in our GitHub repository.</div>
+              <div className="py-2">Please let us know! Send us an <a href="mailto:support@hifis.net?subject=[RSD]&body=Hi! We are looking forward to your feedback. Please keep the [RSD] tag in subject. Thank you, the HIFIS Team" className="hgf-text-highlight underline">e-mail</a>, or open an <a href="https://github.com/hifis-net/RSD-as-a-service/issues" target="_blank" className="bg-[#cdeefb] underline" rel="noreferrer">issue</a> in our GitHub repository.</div>
             </div>
             <div className="hidden md:block overflow-clip relative h-full">
               <Image

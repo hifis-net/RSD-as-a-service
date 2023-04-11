@@ -2,6 +2,10 @@
   "host": {
     "name": "helmholtz",
     "email": "support@hifis.net",
+    "emailHeaders": [
+      "subject=[RSD] ",
+      "body=Hi! We are looking forward to your feedback. Please keep the [RSD] tag in subject. Thank you, the HIFIS Team"
+    ],
     "logo_url": "/images/LogoHIFISWhite.svg",
     "terms_of_service_url": "/page/terms-of-service/",
     "privacy_statement_url": "/page/privacy-statement/"
