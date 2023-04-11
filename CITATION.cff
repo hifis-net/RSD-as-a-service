@@ -51,7 +51,7 @@ references:
       - name: "Netherlands eScience Center"
     title: "Research Software Directory (as a service)"
     doi: 10.5281/zenodo.6379973
-    version: v1.18.0
+    version: v1.20.0
     repository-code: https://github.com/research-software-directory/RSD-as-a-service
 keywords:
   - Research Software
@@ -61,6 +61,5 @@ keywords:
   - Software Reuse
 license:
   - EUPL-1.2
-  - Apache-2.0
 version: hifis-1.7.0
-date-released: '2023-03-06'
+date-released: '2023-04-11'
