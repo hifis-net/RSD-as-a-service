@@ -1,11 +1,12 @@
-// SPDX-FileCopyrightText: 2022 Dusan Mijatovic (dv4all)
-// SPDX-FileCopyrightText: 2022 dv4all
+// SPDX-FileCopyrightText: 2022 - 2023 Dusan Mijatovic (dv4all)
+// SPDX-FileCopyrightText: 2022 - 2023 dv4all
 //
 // SPDX-License-Identifier: Apache-2.0
 
 import {useState} from 'react'
 
 import Button from '@mui/material/Button'
+import AddIcon from '@mui/icons-material/Add'
 
 import {useSession} from '~/auth'
 import useSnackbar from '~/components/snackbar/useSnackbar'
@@ -86,20 +87,23 @@ export default function AutosaveProjectLinks({project_id, url_for_project}: Proj
     }
   }
 
-  async function sortedLinks(links: ProjectLink[]) {
+  async function sortedLinks(newList: ProjectLink[]) {
     // patch only if there are items left
-    if (links.length > 0) {
+    if (newList.length > 0) {
+      setLinks(newList)
       const resp = await patchProjectLinkPositions({
-        links,
+        links:newList,
         token
       })
-      if (resp.status === 200) {
+      if (resp.status !== 200) {
+        // revert back
         setLinks(links)
-      } else {
+        // show error message
         showErrorMessage(`Failed to update project link positions. ${resp.message}`)
       }
     } else {
-      setLinks(links)
+      // reset links
+      setLinks([])
     }
   }
 
@@ -130,6 +134,7 @@ export default function AutosaveProjectLinks({project_id, url_for_project}: Proj
         subtitle={config.url_for_project.sectionSubtitle}
       >
         <Button
+          startIcon={<AddIcon />}
           onClick={addLink}
           sx={{margin:'0rem 0rem 0.5rem 1rem'}}
         >

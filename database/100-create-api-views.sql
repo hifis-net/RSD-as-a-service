@@ -430,7 +430,7 @@ CREATE FUNCTION releases_by_organisation() RETURNS TABLE (
 	release_authors VARCHAR
 ) LANGUAGE sql STABLE AS
 $$
-SELECT
+SELECT DISTINCT
 	organisation.id AS organisation_id,
 	software.id AS software_id,
 	software.slug AS software_slug,
@@ -1139,6 +1139,7 @@ BEGIN
 END
 $$;
 
+
 -- ORGANISATIONS BY MAINTAINER
 -- NOTE! each organisation is shown multiple times in this view
 -- we filter this view at least by user acount (maintainer_id uuid) on primary_maintainer or maintainer
@@ -1571,3 +1572,72 @@ CREATE VIEW user_count_per_home_organisation AS
 	GROUP BY
 		home_organisation
 	;
+
+
+-- Return the number of accounts since specified time stamp
+CREATE FUNCTION new_accounts_count_since_timestamp(timestmp TIMESTAMPTZ) RETURNS INTEGER
+LANGUAGE sql SECURITY DEFINER STABLE AS
+$$
+SELECT
+	COUNT(account.created_at)
+FROM
+	account
+WHERE
+	created_at > timestmp;
+$$;
+
+
+-- Keywords use by software and projects
+-- DEPENDS ON FUNCTIONS keyword_count_for_software and keyword_count_for_projects
+CREATE FUNCTION keyword_cnt() RETURNS TABLE (
+	id UUID,
+	keyword CITEXT,
+	software_cnt BIGINT,
+	projects_cnt BIGINT
+) LANGUAGE sql SECURITY DEFINER STABLE AS
+$$
+SELECT
+	keyword.id,
+	keyword.value AS keyword,
+	keyword_count_for_software.cnt AS software_cnt,
+	keyword_count_for_projects.cnt AS projects_cnt
+FROM
+	keyword
+LEFT JOIN
+	keyword_count_for_software() ON keyword.value = keyword_count_for_software.keyword
+LEFT JOIN
+	keyword_count_for_projects() ON keyword.value = keyword_count_for_projects.keyword
+;
+$$;
+
+--  Suggest a platform type based on the input of other users in the RSD
+CREATE FUNCTION suggest_platform(hostname VARCHAR(200)) RETURNS platform_type
+LANGUAGE SQL STABLE AS
+$$
+SELECT
+	code_platform
+FROM
+	(
+		SELECT
+			url,
+			code_platform
+		FROM
+			repository_url
+	) AS sub
+WHERE
+	(
+		-- Returns the hostname of sub.url
+		SELECT
+			TOKEN
+		FROM
+			ts_debug(sub.url)
+		WHERE
+			alias = 'host'
+	) = hostname
+GROUP BY
+	sub.code_platform
+ORDER BY
+	COUNT(*)
+DESC LIMIT
+	1;
+$$;

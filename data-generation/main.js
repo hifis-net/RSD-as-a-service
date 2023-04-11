@@ -10,7 +10,7 @@
 import {faker} from '@faker-js/faker';
 import jwt from 'jsonwebtoken';
 import images from './images.js';
-import {conceptDois, dois} from './dois.js';
+import {conceptDois, dois, packageManagerLinks} from './real-data.js';
 import fs from 'fs/promises';
 
 
@@ -180,6 +180,23 @@ function generateRepositoryUrls(ids) {
 	return result;
 }
 
+function generatePackageManagers(softwareIds) {
+	const result = [];
+
+	for (let index = 0; index < softwareIds.length; index++) {
+		// first assign each package manager entry to one software, then randomly assing package manager entries to the remaining ids
+		const packageManagerLink = index < packageManagerLinks.length ? packageManagerLinks[index] : faker.helpers.arrayElement(packageManagerLinks);
+
+		result.push({
+			software: softwareIds[index],
+			url: packageManagerLink.url,
+			package_manager: packageManagerLink.type,
+		});
+	}
+
+	return result;
+}
+
 function generateLincensesForSoftware(ids) {
 	const licenses = [
 		'Apache-2.0',
@@ -315,9 +332,9 @@ async function generateProjects(amount=500) {
 		result.push({
 			slug: faker.helpers.slugify(title).toLowerCase().replaceAll(/-{2,}/g, '-').replaceAll(/-+$/g, ''), // removes double dashes and trailing dashes
 			title: title,
-			subtitle: faker.commerce.productDescription(),
-			date_end: dateEnd,
-			date_start: dateStart,
+			subtitle: faker.helpers.maybe(() => faker.commerce.productDescription(), {probability: 0.9}) ?? null,
+			date_end: faker.helpers.maybe(() => dateEnd, {probability: 0.9}) ?? null,
+			date_start: faker.helpers.maybe(() => dateStart, {probability: 0.9}) ?? null,
 			description: faker.lorem.paragraphs(5, '\n\n'),
 			grant_id: faker.helpers.replaceSymbols('******'),
 			image_caption: faker.animal.cat(),
@@ -633,15 +650,17 @@ const researchDomainsPromise = getFromBackend('/research_domain?select=id')
 await Promise.all([mentionsPromise, keywordPromise, researchDomainsPromise])
 	.then(() => console.log('mentions, keywords, research domains done'));
 
-let idsSoftware, idsFakeSoftware, idsProjects, idsOrganisations;
+let idsSoftware, idsFakeSoftware, idsRealSoftware, idsProjects, idsOrganisations;
 const softwarePromise = postToBackend('/software', await generateSofware())
 	.then(resp => resp.json())
 	.then(async swArray => {
 		idsSoftware = swArray.map(sw => sw['id']);
 		idsFakeSoftware = swArray.filter(sw => sw['brand_name'].startsWith('Software')).map(sw => sw['id']);
+		idsRealSoftware = swArray.filter(sw => sw['brand_name'].startsWith('Real software')).map(sw => sw['id']);
 		postToBackend('/contributor', await generateContributors(idsSoftware));
 		postToBackend('/testimonial', generateTestimonials(idsSoftware));
 		postToBackend('/repository_url', generateRepositoryUrls(idsSoftware));
+		postToBackend('/package_manager', generatePackageManagers(idsRealSoftware));
 		postToBackend('/license_for_software', generateLincensesForSoftware(idsSoftware));
 		postToBackend('/keyword_for_software', generateKeywordsForEntity(idsSoftware, idsKeywords, 'software'));
 		postToBackend('/mention_for_software', generateMentionsForEntity(idsSoftware, idsMentions, 'software'));
