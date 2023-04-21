@@ -18,6 +18,11 @@ authors:
     email: christian.meessen@gfz-potsdam.de
     affiliation: Helmholtz Centre Potsdam - GFZ German Research Centre for Geosciences
     orcid: 'https://orcid.org/0000-0001-8151-8722'
+  - given-names: Felix
+    family-names: Mühlbauer
+    email: felix.muehlbauer@gfz-potsdam.de
+    affiliation: Helmholtz Centre Potsdam - GFZ German Research Centre for Geosciences
+    orcid: 'https://orcid.org/0000-0002-0727-8326'
   - given-names: Matthias
     family-names: Rüster
     email: matthias.ruester@gfz-potsdam.de
@@ -61,5 +66,5 @@ keywords:
   - Software Reuse
 license:
   - EUPL-1.2
-version: hifis-1.7.0
-date-released: '2023-04-11'
+version: hifis-1.9.0
+date-released: '2023-04-24'
