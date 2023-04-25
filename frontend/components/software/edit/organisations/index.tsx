@@ -44,7 +44,7 @@ export type EditOrganisationModalProps = ModalProps & {
 
 export default function SoftwareOganisations() {
   const {token,user} = useSession()
-  const {showErrorMessage} = useSnackbar()
+  const {showInfoMessage,showErrorMessage} = useSnackbar()
   const {software} = useSoftwareContext()
   const {loading, organisations, setOrganisations} = useParticipatingOrganisations({
     software: software?.id ?? '',
@@ -71,6 +71,12 @@ export default function SoftwareOganisations() {
   )
 
   async function onAddOrganisation(item: SearchOrganisation) {
+    // check if present by ror_id
+    const found = organisations.find(org => org.ror_id === item.ror_id)
+    if (item.ror_id && found) {
+      showInfoMessage(`${item.name} is already in the collection (based on ror_id).`)
+      return
+    }
     // add default values
     const addOrganisation: EditOrganisation = searchToEditOrganisation({
       item,
@@ -304,7 +310,7 @@ export default function SoftwareOganisations() {
 
   return (
     <>
-      <EditSection className="flex-1 md:flex md:flex-col-reverse md:justify-end xl:pl-[3rem] xl:grid xl:grid-cols-[1fr,1fr] xl:px-0 xl:gap-[3rem]">
+      <EditSection className="flex-1 md:flex md:flex-col-reverse md:justify-end xl:grid xl:grid-cols-[3fr,2fr] xl:px-0 xl:gap-[3rem]">
         <section className="py-4">
           <h2 className="flex pr-4 pb-4 justify-between">
             <span>{config.title}</span>
