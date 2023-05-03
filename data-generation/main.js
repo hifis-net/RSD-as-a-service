@@ -466,8 +466,8 @@ async function generateOrganisations(amount=500) {
 function generateMetaPages() {
 	const result = [];
 
-	const titles = ['Terms of Service', 'Privacy Statement'];
-	const slugs = ['terms-of-service', 'privacy-statement'];
+	const titles = ['About', 'Terms of Service', 'Privacy Statement'];
+	const slugs = ['about', 'terms-of-service', 'privacy-statement'];
 	for (let index = 0; index < titles.length; index++) {
 		result.push({
 			title: titles[index],
@@ -695,5 +695,5 @@ await postToBackend('/release', idsSoftware.map(id => ({software: id})))
 	.then(() => console.log('releases done'));
 
 console.log('Done');
-// This is unfortunately needed, because when using docker-compose, the node process might hang for a long time
+// This is unfortunately needed, because when using docker compose, the node process might hang for a long time
 process.exit(0);
